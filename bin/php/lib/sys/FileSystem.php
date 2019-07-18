@@ -7,8 +7,17 @@ namespace sys;
 
 use \php\Boot;
 
+/**
+ * This class allows you to get information about the files and directories.
+ * See `sys.io.File` for the complementary file API.
+ */
 class FileSystem {
 	/**
+	 * Returns the names of all files and directories in the directory specified
+	 * by `path`.
+	 * If `path` does not denote a valid directory, an exception is thrown.
+	 * If `path` is null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return \Array_hx

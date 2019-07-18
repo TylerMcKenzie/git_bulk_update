@@ -11,40 +11,45 @@ import sys.io.Process;
 
 class App
 {
-    private var directory: String;
-    private var fileExtension: String;
-    private var search: String;
-    private var replace: String;
-    private var branchname: String;
-    private var pullRequestMessage: String;
+    @:flag('-d')
+    public var directory: String;
 
-    public function new() 
+    @:flag("-f")
+    public var fileExtension: String;
+
+    @:flag("-s")
+    public var search: String;
+
+    @:flag("-r")
+    public var replace: String;
+
+    @:flag("-b")
+    public var branchname: String;
+
+    @:flag("-pr-message")
+    public var pullRequestMessage: String;
+
+    public function new() {}
+
+    @:defaultCommand
+    public function run(rest): Void
     {
-        var args = Sys.args();
-
-        this.directory          = args[0];
-        this.fileExtension      = args[1];
-        this.search             = args[2];
-        this.replace            = args[3];
-        this.branchname         = args[4] != null ? args[4] : '';
-        this.pullRequestMessage = args[5] != null ? args[5] : '';
-    }
-
-    public function run(): Void
-    {
+        trace(this.directory);
+        trace(rest);
         if (this.directory == null) {
             this.error("Test directory is required");
         }
-
+        return;
         var files = this.getAllFiles(this.directory, new Array<String>());
 
         var range = 0;
         // var directoryName = Path.directory(this.directory).split("/").pop();
         var chunk = 50;
+        trace("I AM RUNNING!");
 
         for (filesChunk in new ChunkIterator(files, chunk)) {
             for (file in filesChunk) {
-                this.searchAndReplaceInFile(search, replace, file);
+                // this.searchAndReplaceInFile(search, replace, file);
             }
 
             // var start = range;

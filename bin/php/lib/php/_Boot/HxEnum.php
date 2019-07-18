@@ -8,6 +8,9 @@ namespace php\_Boot;
 use \haxe\ds\StringMap;
 use \php\Boot;
 
+/**
+ * Base class for enum types
+ */
 class HxEnum {
 	/**
 	 * @var StringMap
@@ -30,6 +33,8 @@ class HxEnum {
 
 
 	/**
+	 * Returns instances of constructors without arguments
+	 * 
 	 * @param string $enumClass
 	 * @param string $tag
 	 * @param int $index
@@ -85,6 +90,8 @@ class HxEnum {
 
 
 	/**
+	 * PHP magic method to get string representation of this `Class`
+	 * 
 	 * @return string
 	 */
 	public function __toString () {
@@ -106,6 +113,8 @@ class HxEnum {
 
 
 	/**
+	 * Get string representation of this `Class`
+	 * 
 	 * @return string
 	 */
 	public function toString () {

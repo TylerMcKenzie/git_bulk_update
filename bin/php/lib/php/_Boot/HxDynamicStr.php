@@ -7,6 +7,9 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * For Dynamic access which looks like String
+ */
 class HxDynamicStr {
 	/**
 	 * @var string
@@ -21,6 +24,9 @@ class HxDynamicStr {
 
 
 	/**
+	 * Returns HxDynamicStr instance if `value` is a string.
+	 * Otherwise returns `value` as-is.
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return mixed

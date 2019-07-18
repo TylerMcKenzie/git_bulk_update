@@ -7,6 +7,9 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * Special exception which is used to wrap non-throwable values
+ */
 class HxException extends \Exception {
 	/**
 	 * @var mixed

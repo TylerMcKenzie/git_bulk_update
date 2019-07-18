@@ -5,6 +5,15 @@
 
 use \php\Boot;
 
+/**
+ * A String buffer is an efficient way to build a big string by appending small
+ * elements together.
+ * Its cross-platform implementation uses String concatenation internally, but
+ * StringBuf may be optimized for different targets.
+ * Unlike String, an instance of StringBuf is not immutable in the sense that
+ * it can be passed as argument to functions which modify it by appending more
+ * values. However, the internal buffer cannot be modified.
+ */
 class StringBuf {
 	/**
 	 * @var string
@@ -13,6 +22,9 @@ class StringBuf {
 
 
 	/**
+	 * Creates a new StringBuf instance.
+	 * This may involve initialization of the internal buffer.
+	 * 
 	 * @return void
 	 */
 	public function __construct () {
@@ -22,6 +34,12 @@ class StringBuf {
 
 
 	/**
+	 * Appends the representation of `x` to `this` StringBuf.
+	 * The exact representation of `x` may vary per platform. To get more
+	 * consistent behavior, this function should be called with
+	 * Std.string(x).
+	 * If `x` is null, the String "null" is appended.
+	 * 
 	 * @param mixed $x
 	 * 
 	 * @return void

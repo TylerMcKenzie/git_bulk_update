@@ -8,26 +8,54 @@ namespace haxe\io;
 use \php\Boot;
 use \php\_Boot\HxString;
 
+/**
+ * This class provides a convenient way of working with paths. It supports the
+ * common path formats:
+ * - directory1/directory2/filename.extension
+ * - directory1\directory2\filename.extension
+ */
 class Path {
 	/**
 	 * @var bool
+	 * True if the last directory separator is a backslash, false otherwise.
 	 */
 	public $backslash;
 	/**
 	 * @var string
+	 * The directory.
+	 * This is the leading part of the path that is not part of the file name
+	 * and the extension.
+	 * Does not end with a `/` or `\` separator.
+	 * If the path has no directory, the value is null.
 	 */
 	public $dir;
 	/**
 	 * @var string
+	 * The file extension.
+	 * It is separated from the file name by a dot. This dot is not part of
+	 * the extension.
+	 * If the path has no extension, the value is null.
 	 */
 	public $ext;
 	/**
 	 * @var string
+	 * The file name.
+	 * This is the part of the part between the directory and the extension.
+	 * If there is no file name, e.g. for ".htaccess" or "/dir/", the value
+	 * is the empty String "".
 	 */
 	public $file;
 
 
 	/**
+	 * Adds a trailing slash to `path`, if it does not have one already.
+	 * If the last slash in `path` is a backslash, a backslash is appended to
+	 * `path`.
+	 * If the last slash in `path` is a slash, or if no slash is found, a slash
+	 * is appended to `path`. In particular, this applies to the empty String
+	 * `""`.
+	 * If `path` is null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return string
@@ -63,6 +91,10 @@ class Path {
 
 
 	/**
+	 * Returns the extension of `path`.
+	 * If the extension is null, the empty String `""` is returned.
+	 * If `path` is null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return string
@@ -81,6 +113,11 @@ class Path {
 
 
 	/**
+	 * Joins all paths in `paths` together.
+	 * If `paths` is empty, the empty String `""` is returned. Otherwise the
+	 * paths are joined with a slash between them.
+	 * If `paths` is null, the result is unspecified.
+	 * 
 	 * @param \Array_hx $paths
 	 * 
 	 * @return string
@@ -126,6 +163,11 @@ class Path {
 
 
 	/**
+	 * Normalize a given `path` (e.g. make '/usr/local/../lib' to '/usr/lib').
+	 * Also replaces backslashes \ with slashes / and afterwards turns
+	 * multiple slashes into a single one.
+	 * If `path` is null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return string
@@ -253,6 +295,10 @@ class Path {
 
 
 	/**
+	 * Creates a new Path instance by parsing `path`.
+	 * Path information can be retrieved by accessing the dir, file and ext
+	 * properties.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return void

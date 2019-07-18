@@ -7,6 +7,9 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * Class<T> implementation for Haxe->PHP internals.
+ */
 class HxClass {
 	/**
 	 * @var string
@@ -26,6 +29,8 @@ class HxClass {
 
 
 	/**
+	 * Magic method to call static methods of this class, when `HxClass` instance is in a `Dynamic` variable.
+	 * 
 	 * @param string $method
 	 * @param mixed $args
 	 * 
@@ -40,6 +45,8 @@ class HxClass {
 
 
 	/**
+	 * Magic method to get static vars of this class, when `HxClass` instance is in a `Dynamic` variable.
+	 * 
 	 * @param string $property
 	 * 
 	 * @return mixed
@@ -68,6 +75,8 @@ class HxClass {
 
 
 	/**
+	 * Magic method to set static vars of this class, when `HxClass` instance is in a `Dynamic` variable.
+	 * 
 	 * @param string $property
 	 * @param mixed $value
 	 * 

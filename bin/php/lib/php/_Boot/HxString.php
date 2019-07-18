@@ -7,6 +7,9 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * `String` implementation
+ */
 class HxString {
 	/**
 	 * @param string $str

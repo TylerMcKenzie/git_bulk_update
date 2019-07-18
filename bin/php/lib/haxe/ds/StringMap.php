@@ -8,6 +8,11 @@ namespace haxe\ds;
 use \haxe\IMap;
 use \php\Boot;
 
+/**
+ * StringMap allows mapping of String keys to arbitrary values.
+ * See `Map` for documentation details.
+ * @see https://haxe.org/manual/std-Map.html
+ */
 class StringMap implements IMap {
 	/**
 	 * @var mixed
@@ -16,6 +21,8 @@ class StringMap implements IMap {
 
 
 	/**
+	 * Creates a new StringMap.
+	 * 
 	 * @return void
 	 */
 	public function __construct () {

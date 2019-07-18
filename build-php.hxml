@@ -4,4 +4,6 @@
 
 -php bin/php
 
+-lib tink_cli
+
 -main Main

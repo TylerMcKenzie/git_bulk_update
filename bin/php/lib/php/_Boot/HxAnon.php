@@ -7,6 +7,9 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * Anonymous objects implementation
+ */
 class HxAnon extends \StdClass {
 	/**
 	 * @param mixed $fields

@@ -1,4 +1,5 @@
 <?php
+use \haxe\EntryPoint;
 set_include_path(__DIR__.'/lib');
 spl_autoload_register(
 	function($class){
@@ -11,3 +12,5 @@ spl_autoload_register(
 \php\Boot::__hx__init();
 #(unknown)
 \Main::main();
+#(unknown)
+EntryPoint::run();

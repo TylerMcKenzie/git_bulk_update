@@ -7,13 +7,18 @@ namespace php\_Boot;
 
 use \php\Boot;
 
+/**
+ * Closures implementation
+ */
 class HxClosure {
 	/**
 	 * @var string
+	 * Method name for methods
 	 */
 	public $func;
 	/**
 	 * @var mixed
+	 * `this` for instance methods; php class name for static methods
 	 */
 	public $target;
 
@@ -38,6 +43,8 @@ class HxClosure {
 
 
 	/**
+	 * @see http://php.net/manual/en/language.oop5.magic.php#object.invoke
+	 * 
 	 * @return mixed
 	 */
 	public function __invoke () {
@@ -47,6 +54,8 @@ class HxClosure {
 
 
 	/**
+	 * Invoke this closure with `newThis` instead of `this`
+	 * 
 	 * @param mixed $newThis
 	 * @param mixed $args
 	 * 
@@ -59,6 +68,8 @@ class HxClosure {
 
 
 	/**
+	 * Check if this is the same closure
+	 * 
 	 * @param HxClosure $closure
 	 * 
 	 * @return bool
@@ -76,6 +87,8 @@ class HxClosure {
 
 
 	/**
+	 * Generates callable value for PHP
+	 * 
 	 * @param mixed $eThis
 	 * 
 	 * @return mixed

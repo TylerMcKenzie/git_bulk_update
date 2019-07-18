@@ -4,9 +4,22 @@
  */
 
 use \php\Boot;
+use \php\_Boot\HxException;
 use \php\_Boot\HxString;
 
-final class EReg {
+final /**
+ * The EReg class represents regular expressions.
+ * While basic usage and patterns consistently work across platforms, some more
+ * complex operations may yield different results. This is a necessary trade-
+ * off to retain a certain level of performance.
+ * EReg instances can be created by calling the constructor, or with the
+ * special syntax `~/pattern/modifier`
+ * EReg instances maintain an internal state, which is affected by several of
+ * its methods.
+ * A detailed explanation of the supported operations is available at
+ * <https://haxe.org/manual/std-regex.html>
+ */
+class EReg {
 	/**
 	 * @var bool
 	 */
@@ -34,6 +47,10 @@ final class EReg {
 
 
 	/**
+	 * Creates a new regular expression with pattern `r` and modifiers `opt`.
+	 * This is equivalent to the shorthand syntax `~/r/opt`
+	 * If `r` or `opt` are null, the result is unspecified.
+	 * 
 	 * @param string $r
 	 * @param string $opt
 	 * 
@@ -59,6 +76,10 @@ final class EReg {
 
 
 	/**
+	 * Tells if `this` regular expression matches String `s`.
+	 * This method modifies the internal state.
+	 * If `s` is `null`, the result is unspecified.
+	 * 
 	 * @param string $s
 	 * 
 	 * @return bool
@@ -80,6 +101,48 @@ final class EReg {
 
 
 	/**
+	 * Returns the matched sub-group `n` of `this` EReg.
+	 * This method should only be called after `this.match` or
+	 * `this.matchSub`, and then operates on the String of that operation.
+	 * The index `n` corresponds to the n-th set of parentheses in the pattern
+	 * of `this` EReg. If no such sub-group exists, an exception is thrown.
+	 * If `n` equals 0, the whole matched substring is returned.
+	 * 
+	 * @param int $n
+	 * 
+	 * @return string
+	 */
+	public function matched ($n) {
+		#/usr/share/haxe/std/php7/_std/EReg.hx:59: characters 2-38
+		if (($this->matches === null) || ($n < 0)) {
+			#/usr/share/haxe/std/php7/_std/EReg.hx:59: characters 33-38
+			throw new HxException("EReg::matched");
+		}
+		#/usr/share/haxe/std/php7/_std/EReg.hx:62: characters 2-45
+		if ($n >= count($this->matches)) {
+			#/usr/share/haxe/std/php7/_std/EReg.hx:62: characters 34-45
+			return null;
+		}
+		#/usr/share/haxe/std/php7/_std/EReg.hx:63: characters 2-42
+		if ($this->matches[$n][1] < 0) {
+			#/usr/share/haxe/std/php7/_std/EReg.hx:63: characters 31-42
+			return null;
+		}
+		#/usr/share/haxe/std/php7/_std/EReg.hx:64: characters 9-22
+		return $this->matches[$n][0];
+	}
+
+
+	/**
+	 * Replaces the first substring of `s` which `this` EReg matches with `by`.
+	 * If `this` EReg does not match any substring, the result is `s`.
+	 * By default, this method replaces only the first matched substring. If
+	 * the global g modifier is in place, all matched substrings are replaced.
+	 * If `by` contains `$1` to `$9`, the digit corresponds to number of a
+	 * matched sub-group and its value is used instead. If no such sub-group
+	 * exists, the replacement is unspecified. The string `$$` becomes `$`.
+	 * If `s` or `by` are null, the result is unspecified.
+	 * 
 	 * @param string $s
 	 * @param string $by
 	 * 

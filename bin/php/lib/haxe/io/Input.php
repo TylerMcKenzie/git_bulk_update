@@ -6,8 +6,77 @@
 namespace haxe\io;
 
 use \php\Boot;
+use \php\_Boot\HxException;
+use \php\_Boot\HxString;
 
+/**
+ * An Input is an abstract reader. See other classes in the `haxe.io` package
+ * for several possible implementations.
+ * All functions which read data throw `Eof` when the end of the stream
+ * is reached.
+ */
 class Input {
+	/**
+	 * Read and return one byte.
+	 * 
+	 * @return int
+	 */
+	public function readByte () {
+		#/usr/share/haxe/std/haxe/io/Input.hx:53: characters 9-14
+		throw new HxException("Not implemented");
+	}
+
+
+	/**
+	 * Read a line of text separated by CR and/or LF bytes.
+	 * The CR/LF characters are not included in the resulting string.
+	 * 
+	 * @return string
+	 */
+	public function readLine () {
+		#/usr/share/haxe/std/haxe/io/Input.hx:178: characters 2-30
+		$buf = new BytesBuffer();
+		#/usr/share/haxe/std/haxe/io/Input.hx:179: characters 2-17
+		$last = null;
+		#/usr/share/haxe/std/haxe/io/Input.hx:180: characters 2-8
+		$s = null;
+		#/usr/share/haxe/std/haxe/io/Input.hx:181: lines 181-190
+		try {
+			#/usr/share/haxe/std/haxe/io/Input.hx:182: lines 182-183
+			while (true) {
+				#/usr/share/haxe/std/haxe/io/Input.hx:182: characters 10-29
+				$last = $this->readByte();
+				#/usr/share/haxe/std/haxe/io/Input.hx:182: lines 182-183
+				if (!($last !== 10)) {
+					#/usr/share/haxe/std/haxe/io/Input.hx:182: lines 182-183
+					break;
+				}
+				#/usr/share/haxe/std/haxe/io/Input.hx:183: characters 4-23
+				($buf->b .= chr($last));
+			}
+			#/usr/share/haxe/std/haxe/io/Input.hx:184: characters 3-32
+			$s = $buf->getBytes()->toString();
+			#/usr/share/haxe/std/haxe/io/Input.hx:185: characters 3-58
+			if (HxString::charCodeAt($s, strlen($s) - 1) === 13) {
+				#/usr/share/haxe/std/haxe/io/Input.hx:185: characters 40-58
+				$s = HxString::substr($s, 0, -1);
+			}
+		} catch (\Throwable $__hx__caught_e) {
+			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
+			if ($__hx__real_e instanceof Eof) {
+				$e = $__hx__real_e;
+				#/usr/share/haxe/std/haxe/io/Input.hx:187: characters 3-32
+				$s = $buf->getBytes()->toString();
+				#/usr/share/haxe/std/haxe/io/Input.hx:188: lines 188-189
+				if (strlen($s) === 0) {
+					#/usr/share/haxe/std/haxe/io/Input.hx:189: characters 36-41
+					throw new HxException($e);
+				}
+			} else  throw $__hx__caught_e;
+		}
+		#/usr/share/haxe/std/haxe/io/Input.hx:191: characters 2-10
+		return $s;
+	}
 }
 
 

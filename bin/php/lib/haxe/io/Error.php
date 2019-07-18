@@ -8,8 +8,13 @@ namespace haxe\io;
 use \php\Boot;
 use \php\_Boot\HxEnum;
 
+/**
+ * The possible IO errors that can occur
+ */
 class Error extends HxEnum {
 	/**
+	 * The IO is set into nonblocking mode and some data cannot be read or written
+	 * 
 	 * @return Error
 	 */
 	static public function Blocked () {
@@ -18,6 +23,8 @@ class Error extends HxEnum {
 
 
 	/**
+	 * Other errors
+	 * 
 	 * @param mixed $e
 	 * 
 	 * @return Error
@@ -28,6 +35,8 @@ class Error extends HxEnum {
 
 
 	/**
+	 * An operation on Bytes is outside of its valid range
+	 * 
 	 * @return Error
 	 */
 	static public function OutsideBounds () {
@@ -36,6 +45,8 @@ class Error extends HxEnum {
 
 
 	/**
+	 * An integer value is outside its allowed range
+	 * 
 	 * @return Error
 	 */
 	static public function Overflow () {

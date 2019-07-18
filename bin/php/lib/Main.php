@@ -4,17 +4,20 @@
  */
 
 use \php\Boot;
+use \tink\cli\Router0;
 use \src\App;
+use \tink\cli\prompt\RetryPrompt;
 
 class Main {
 	/**
 	 * @return void
 	 */
 	static public function main () {
-		#Main.hx:9: characters 8-28
-		$app = new App();
-		#Main.hx:10: characters 8-17
-		$app->run();
+		#Main.hx:11: characters 32-41
+		$this1 = new App();
+		#Main.hx:11: characters 8-65
+		(new Router0($this1, new RetryPrompt(5)))->process(\Sys::args())->handle(function ($o) {
+		});
 	}
 
 

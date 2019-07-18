@@ -7,8 +7,17 @@ namespace sys\io;
 
 use \php\Boot;
 
+/**
+ * API for reading and writing to files.
+ * See `sys.FileSystem` for the complementary file system API.
+ */
 class File {
 	/**
+	 * Retrieves the content of the file specified by `path` as a String.
+	 * If the file does not exist or can not be read, an exception is thrown.
+	 * `sys.FileSystem.exists` can be used to check for existence.
+	 * If `path` is null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * 
 	 * @return string
@@ -20,6 +29,10 @@ class File {
 
 
 	/**
+	 * Stores `content` in the file specified by `path`.
+	 * If the file cannot be written to, an exception is thrown.
+	 * If `path` or `content` are null, the result is unspecified.
+	 * 
 	 * @param string $path
 	 * @param string $content
 	 * 

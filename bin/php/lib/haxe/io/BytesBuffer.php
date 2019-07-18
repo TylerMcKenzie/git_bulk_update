@@ -25,6 +25,9 @@ class BytesBuffer {
 
 
 	/**
+	 * Returns either a copy or a reference of the current bytes.
+	 * Once called, the buffer can no longer be used.
+	 * 
 	 * @return Bytes
 	 */
 	public function getBytes () {

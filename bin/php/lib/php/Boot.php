@@ -13,33 +13,45 @@ use \php\_Boot\HxClass;
 use \php\_Boot\HxEnum;
 use \php\_Boot\HxAnon;
 
+/**
+ * Various Haxe->PHP compatibility utilities.
+ * You should not use this class directly.
+ */
 class Boot {
 	const PHP_PREFIX = "";
 
 
 	/**
 	 * @var mixed
+	 * List of Haxe classes registered by their PHP class names
 	 */
 	static protected $aliases;
 	/**
 	 * @var mixed
+	 * Cache of HxClass instances
 	 */
 	static protected $classes;
 	/**
 	 * @var mixed
+	 * List of getters (for Reflect)
 	 */
 	static protected $getters;
 	/**
 	 * @var mixed
+	 * Metadata storage
 	 */
 	static protected $meta;
 	/**
 	 * @var mixed
+	 * List of setters (for Reflect)
 	 */
 	static protected $setters;
 
 
 	/**
+	 * Concat `left` and `right` if both are strings or string and null.
+	 * Otherwise return sum of `left` and `right`.
+	 * 
 	 * @param mixed $left
 	 * @param mixed $right
 	 * 
@@ -57,6 +69,8 @@ class Boot {
 
 
 	/**
+	 * Unsafe cast to HxClass
+	 * 
 	 * @param Class $cls
 	 * 
 	 * @return HxClass
@@ -68,6 +82,8 @@ class Boot {
 
 
 	/**
+	 * Unsafe cast to HxClosure
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return HxClosure
@@ -79,6 +95,10 @@ class Boot {
 
 
 	/**
+	 * Creates Haxe-compatible closure.
+	 * @param type `this` for instance methods; full php class name for static methods
+	 * @param func Method name
+	 * 
 	 * @param mixed $target
 	 * @param mixed $func
 	 * 
@@ -91,6 +111,8 @@ class Boot {
 
 
 	/**
+	 * Returns `Class<T>` for `HxClosure`
+	 * 
 	 * @return HxClass
 	 */
 	static public function closureHxClass () {
@@ -100,6 +122,8 @@ class Boot {
 
 
 	/**
+	 * Create Haxe-compatible anonymous structure of `data` associative array
+	 * 
 	 * @param mixed $data
 	 * 
 	 * @return mixed
@@ -111,6 +135,11 @@ class Boot {
 
 
 	/**
+	 * Helper method to avoid "Cannot use temporary expression in write context" error for expressions like this:
+	 * ```
+	 * (new MyClass()).fieldName = 'value';
+	 * ```
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return mixed
@@ -122,6 +151,8 @@ class Boot {
 
 
 	/**
+	 * Get `field` of a dynamic `value` in a safe manner (avoid exceptions on trying to get a method)
+	 * 
 	 * @param mixed $value
 	 * @param string $field
 	 * 
@@ -148,6 +179,8 @@ class Boot {
 
 
 	/**
+	 * Make sure specified class is loaded
+	 * 
 	 * @param string $phpClassName
 	 * 
 	 * @return bool
@@ -165,6 +198,8 @@ class Boot {
 
 
 	/**
+	 * Check if specified values are equal
+	 * 
 	 * @param mixed $left
 	 * @param mixed $right
 	 * 
@@ -182,6 +217,9 @@ class Boot {
 
 
 	/**
+	 * Get Class<T> instance for PHP fully qualified class name (E.g. '\some\pack\MyClass')
+	 * It's always the same instance for the same `phpClassName`
+	 * 
 	 * @param string $phpClassName
 	 * 
 	 * @return HxClass
@@ -203,6 +241,8 @@ class Boot {
 
 
 	/**
+	 * Returns either Haxe class name for specified `phpClassName` or (if no such Haxe class registered) `phpClassName`.
+	 * 
 	 * @param string $phpClassName
 	 * 
 	 * @return string
@@ -224,6 +264,8 @@ class Boot {
 
 
 	/**
+	 * Returns original Haxe fully qualified class name for this type (if exists)
+	 * 
 	 * @param HxClass $hxClass
 	 * 
 	 * @return string
@@ -282,6 +324,8 @@ class Boot {
 
 
 	/**
+	 * Returns Class<HxAnon>
+	 * 
 	 * @return HxClass
 	 */
 	static public function getHxAnon () {
@@ -291,6 +335,8 @@ class Boot {
 
 
 	/**
+	 * Returns Class<HxClass>
+	 * 
 	 * @return HxClass
 	 */
 	static public function getHxClass () {
@@ -300,6 +346,8 @@ class Boot {
 
 
 	/**
+	 * Retrieve metadata for specified class
+	 * 
 	 * @param string $phpClassName
 	 * 
 	 * @return mixed
@@ -322,6 +370,9 @@ class Boot {
 
 
 	/**
+	 * Find corresponding PHP class name.
+	 * Returns `null` if specified class does not exist.
+	 * 
 	 * @param string $haxeName
 	 * 
 	 * @return string
@@ -451,6 +502,9 @@ class Boot {
 
 
 	/**
+	 * Returns root namespace based on a value of `--php-prefix` compiler flag.
+	 * Returns empty string if no `--php-prefix` provided.
+	 * 
 	 * @return string
 	 */
 	static public function getPrefix () {
@@ -460,6 +514,8 @@ class Boot {
 
 
 	/**
+	 * Returns a list of phpName=>haxeName for currently loaded haxe-generated classes.
+	 * 
 	 * @return mixed
 	 */
 	static public function getRegisteredAliases () {
@@ -469,6 +525,8 @@ class Boot {
 
 
 	/**
+	 * Returns a list of currently loaded haxe-generated classes.
+	 * 
 	 * @return \Array_hx
 	 */
 	static public function getRegisteredClasses () {
@@ -489,6 +547,8 @@ class Boot {
 
 
 	/**
+	 * Check if specified property has getter
+	 * 
 	 * @param string $phpClassName
 	 * @param string $property
 	 * 
@@ -522,6 +582,8 @@ class Boot {
 
 
 	/**
+	 * Check if specified property has setter
+	 * 
 	 * @param string $phpClassName
 	 * @param string $property
 	 * 
@@ -555,6 +617,8 @@ class Boot {
 
 
 	/**
+	 * `Std.is()` implementation
+	 * 
 	 * @param mixed $value
 	 * @param HxClass $type
 	 * 
@@ -647,6 +711,8 @@ class Boot {
 
 
 	/**
+	 * Check if `value` is a `Class<T>`
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return bool
@@ -658,6 +724,8 @@ class Boot {
 
 
 	/**
+	 * Check if `value` is an enum constructor instance
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return bool
@@ -669,6 +737,8 @@ class Boot {
 
 
 	/**
+	 * Check if `value` is a function
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return bool
@@ -686,6 +756,8 @@ class Boot {
 
 
 	/**
+	 * Check if `value` is an instance of `HxClosure`
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return bool
@@ -714,6 +786,8 @@ class Boot {
 
 
 	/**
+	 * Associate PHP class name with Haxe class name
+	 * 
 	 * @param string $phpClassName
 	 * @param string $haxeClassName
 	 * 
@@ -726,6 +800,8 @@ class Boot {
 
 
 	/**
+	 * Register list of getters to be able to call getters using reflection
+	 * 
 	 * @param string $phpClassName
 	 * @param mixed $list
 	 * 
@@ -738,6 +814,8 @@ class Boot {
 
 
 	/**
+	 * Save metadata for specified class
+	 * 
 	 * @param string $phpClassName
 	 * @param mixed $data
 	 * 
@@ -750,6 +828,8 @@ class Boot {
 
 
 	/**
+	 * Register list of setters to be able to call getters using reflection
+	 * 
 	 * @param string $phpClassName
 	 * @param mixed $list
 	 * 
@@ -762,6 +842,8 @@ class Boot {
 
 
 	/**
+	 * Performs `left >>> right` operation
+	 * 
 	 * @param int $left
 	 * @param int $right
 	 * 
@@ -783,6 +865,8 @@ class Boot {
 
 
 	/**
+	 * Returns string representation of `value`
+	 * 
 	 * @param mixed $value
 	 * 
 	 * @return string
@@ -910,6 +994,8 @@ class Boot {
 
 
 	/**
+	 * `trace()` implementation
+	 * 
 	 * @param mixed $value
 	 * @param object $infos
 	 * 
@@ -945,6 +1031,9 @@ class Boot {
 
 
 	/**
+	 * Implementation for `cast(value, Class<Dynamic>)`
+	 * @throws HxException if `value` cannot be casted to this type
+	 * 
 	 * @param HxClass $hxClass
 	 * @param mixed $value
 	 * 

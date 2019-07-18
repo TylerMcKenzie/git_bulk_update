@@ -6,14 +6,26 @@
 use \php\Boot;
 use \php\_Boot\HxString;
 
+/**
+ * This class provides advanced methods on Strings. It is ideally used with
+ * `using StringTools` and then acts as an [extension](https://haxe.org/manual/lf-static-extension.html)
+ * to the `String` class.
+ * If the first argument to any of the methods is null, the result is
+ * unspecified.
+ */
 class StringTools {
 	/**
 	 * @var \Array_hx
+	 * Character codes of the characters that will be escaped by `quoteWinArg(_, true)`.
 	 */
 	static public $winMetaCharacters;
 
 
 	/**
+	 * Returns a String that can be used as a single command line argument
+	 * on Unix.
+	 * The input will be quoted, or escaped if necessary.
+	 * 
 	 * @param string $argument
 	 * 
 	 * @return string
@@ -35,6 +47,17 @@ class StringTools {
 
 
 	/**
+	 * Returns a String that can be used as a single command line argument
+	 * on Windows.
+	 * The input will be quoted, or escaped if necessary, such that the output
+	 * will be parsed as a single argument using the rule specified in
+	 * http://msdn.microsoft.com/en-us/library/ms880421
+	 * Examples:
+	 * ```
+	 * quoteWinArg("abc") == "abc";
+	 * quoteWinArg("ab c") == '"ab c"';
+	 * ```
+	 * 
 	 * @param string $argument
 	 * @param bool $escapeMetaCharacters
 	 * 
@@ -173,6 +196,13 @@ class StringTools {
 
 
 	/**
+	 * Replace all occurrences of the String `sub` in the String `s` by the
+	 * String `by`.
+	 * If `sub` is the empty String `""`, `by` is inserted after each character
+	 * of `s`. If `by` is also the empty String `""`, `s` remains unchanged.
+	 * This is a convenience function for `s.split(sub).join(by)`.
+	 * If `sub` or `by` are null, the result is unspecified.
+	 * 
 	 * @param string $s
 	 * @param string $sub
 	 * @param string $by

@@ -7,6 +7,9 @@ namespace haxe\io;
 
 use \php\Boot;
 
+/**
+ * This exception is raised when reading while data is no longer available in the `haxe.io.Input`.
+ */
 class Eof {
 	/**
 	 * @return void
