@@ -26,8 +26,14 @@ class App extends Cli
     @:flag("-b")
     public var branchname: String;
 
-    @:flag("-p")
+    @:flag("--create-pull")
+    public var createPull: Bool;
+
+    @:flag("--pull-message")
     public var pullRequestMessage: String;
+
+    @:flag("--chunk")
+    public var chunk:Int = 50;
 
     public function new() 
     {
@@ -37,6 +43,8 @@ class App extends Cli
 
     override public function run(): Void
     {
+        trace(this.chunk);
+        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }
@@ -45,33 +53,38 @@ class App extends Cli
 
         var range = 0;
         // var directoryName = Path.directory(this.directory).split("/").pop();
-        var chunk = 50;
 
-        for (filesChunk in new ChunkIterator(files, chunk)) {
+        for (filesChunk in new ChunkIterator(files, this.chunk)) {
             for (file in filesChunk) {
-                this.searchAndReplaceInFile(search, replace, file);
+                // this.searchAndReplaceInFile(search, replace, file);
             }
-
-            var start = range;
-            var end = range += chunk;
-
-            // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
-            var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
             
             // Commands for creating, adding, and pushing the batched branches
-            if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
-                new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
-                new Process("git", ["push", "-u"]).exitCode();
+            if (this.createPull) {
+                var start = range;
+                var end = range += this.chunk;
                 
-                Hub.pullRequest(["-m", 'Update batch $start - $end', "-m", this.pullRequestMessage], function(process) {
-                    Sys.print(process.stdout.readAll().toString());
-                    process.exitCode();
-                    process.close();
-                });
+                if (this.branchname == null) this.error("'-b' branch flag is required when creating a pull request.");
 
-                new Process("git", ["checkout", "-"]).exitCode();
-            } else {
-                this.error('Could not checkout branch \'$branchnameRange\'.');
+                // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
+                var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
+                
+                if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
+                    new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
+                    new Process("git", ["push", "-u"]).exitCode();
+                    
+                    var message = (this.pullRequestMessage != null) ? this.pullRequestMessage : '';
+
+                    Hub.pullRequest(["-m", 'Update batch $start - $end', "-m", message], function(process) {
+                        Sys.print(process.stdout.readAll().toString());
+                        process.exitCode();
+                        process.close();
+                    });
+
+                    new Process("git", ["checkout", "-"]).exitCode();
+                } else {
+                    this.error('Could not checkout branch \'$branchnameRange\'.');
+                }
             }
         }
     }
