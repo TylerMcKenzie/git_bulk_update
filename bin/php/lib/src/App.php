@@ -8,14 +8,20 @@ namespace src;
 use \haxe\io\Path;
 use \php\Boot;
 use \php\_Boot\HxException;
+use \haxe\Log;
 use \sys\io\File;
+use \php\_Boot\HxAnon;
 use \sys\FileSystem;
 
-class App {
+class App implements Cli {
 	/**
 	 * @var string
 	 */
 	public $branchname;
+	/**
+	 * @var string
+	 */
+	public $buildField;
 	/**
 	 * @var string
 	 */
@@ -42,19 +48,21 @@ class App {
 	 * @return void
 	 */
 	public function __construct () {
-		#src/App.hx:23: characters 8-30
+		#src/macro/Build.hx:47: characters 53-57
+		$this->buildField = null;
+		#src/App.hx:25: characters 8-30
 		$args = \Sys::args();
-		#src/App.hx:25: characters 8-41
-		$this->directory = ($args->arr[0] ?? null);
-		#src/App.hx:26: characters 8-41
-		$this->fileExtension = ($args->arr[1] ?? null);
 		#src/App.hx:27: characters 8-41
-		$this->search = ($args->arr[2] ?? null);
+		$this->directory = ($args->arr[0] ?? null);
 		#src/App.hx:28: characters 8-41
+		$this->fileExtension = ($args->arr[1] ?? null);
+		#src/App.hx:29: characters 8-41
+		$this->search = ($args->arr[2] ?? null);
+		#src/App.hx:30: characters 8-41
 		$this->replace = ($args->arr[3] ?? null);
-		#src/App.hx:29: characters 8-64
+		#src/App.hx:31: characters 8-64
 		$this->branchname = (($args->arr[4] ?? null) !== null ? ($args->arr[4] ?? null) : "");
-		#src/App.hx:30: characters 8-64
+		#src/App.hx:32: characters 8-64
 		$this->pullRequestMessage = (($args->arr[5] ?? null) !== null ? ($args->arr[5] ?? null) : "");
 	}
 
@@ -65,14 +73,14 @@ class App {
 	 * @return void
 	 */
 	public function error ($msg = "") {
-		#src/App.hx:75: lines 75-78
+		#src/App.hx:79: lines 79-82
 		if ($msg === null) {
-			#src/App.hx:75: lines 75-78
+			#src/App.hx:79: lines 79-82
 			$msg = "";
 		}
-		#src/App.hx:76: characters 8-24
+		#src/App.hx:80: characters 8-24
 		\Sys::println($msg);
-		#src/App.hx:77: characters 8-19
+		#src/App.hx:81: characters 8-19
 		exit(1);
 	}
 
@@ -84,50 +92,50 @@ class App {
 	 * @return \Array_hx
 	 */
 	public function getAllFiles ($directory, $files) {
-		#src/App.hx:82: lines 82-100
+		#src/App.hx:86: lines 86-104
 		if (file_exists($directory)) {
-			#src/App.hx:83: lines 83-97
+			#src/App.hx:87: lines 87-101
 			if (is_dir($directory)) {
-				#src/App.hx:84: lines 84-94
+				#src/App.hx:88: lines 88-98
 				$_g = 0;
-				#src/App.hx:84: lines 84-94
+				#src/App.hx:88: lines 88-98
 				$_g1 = FileSystem::readDirectory($directory);
-				#src/App.hx:84: lines 84-94
+				#src/App.hx:88: lines 88-98
 				while ($_g < $_g1->length) {
-					#src/App.hx:84: characters 21-25
+					#src/App.hx:88: characters 21-25
 					$file = ($_g1->arr[$_g] ?? null);
-					#src/App.hx:84: lines 84-94
+					#src/App.hx:88: lines 88-98
 					$_g = $_g + 1;
-					#src/App.hx:85: characters 20-64
+					#src/App.hx:89: characters 20-64
 					$filePath = Path::join(\Array_hx::wrap([
 						$directory,
 						$file,
 					]));
-					#src/App.hx:87: lines 87-93
+					#src/App.hx:91: lines 91-97
 					if (!is_dir($filePath)) {
-						#src/App.hx:88: lines 88-90
+						#src/App.hx:92: lines 92-94
 						if (Path::extension($filePath) === $this->fileExtension) {
-							#src/App.hx:89: characters 28-48
+							#src/App.hx:93: characters 28-48
 							$files->arr[$files->length] = $filePath;
-							#src/App.hx:89: characters 28-48
+							#src/App.hx:93: characters 28-48
 							++$files->length;
 						}
 					} else {
-						#src/App.hx:92: characters 24-80
+						#src/App.hx:96: characters 24-80
 						$this->getAllFiles(Path::addTrailingSlash($filePath), $files);
 					}
 				}
 			} else {
-				#src/App.hx:96: characters 16-37
+				#src/App.hx:100: characters 16-37
 				$files->arr[$files->length] = $directory;
-				#src/App.hx:96: characters 16-37
+				#src/App.hx:100: characters 16-37
 				++$files->length;
 			}
 		} else {
-			#src/App.hx:99: characters 11-64
+			#src/App.hx:103: characters 11-64
 			$this->error("Directory '" . ($directory??'null') . "' does not exist");
 		}
-		#src/App.hx:102: characters 8-20
+		#src/App.hx:106: characters 8-20
 		return $files;
 	}
 
@@ -136,51 +144,15 @@ class App {
 	 * @return void
 	 */
 	public function run () {
-		#src/App.hx:35: lines 35-37
-		if ($this->directory === null) {
-			#src/App.hx:36: characters 12-52
-			$this->error("Test directory is required");
-		}
-		#src/App.hx:39: characters 8-74
-		$files = $this->getAllFiles($this->directory, new \Array_hx());
-		#src/App.hx:41: characters 8-22
-		$range = 0;
-		#src/App.hx:43: characters 8-23
-		$chunk = 50;
-		#src/App.hx:45: lines 45-71
-		$_g_index = null;
-		#src/App.hx:45: lines 45-71
-		$_g_chunkSize = null;
-		#src/App.hx:45: lines 45-71
-		$_g_array = null;
-		#src/App.hx:45: characters 27-58
-		$_g_index = 0;
-		#src/App.hx:45: characters 27-58
-		$_g_array = $files;
-		#src/App.hx:45: characters 27-58
-		$_g_chunkSize = $chunk;
-		#src/App.hx:45: lines 45-71
-		while ($_g_index < $_g_array->length) {
-			#src/App.hx:45: lines 45-71
-			$_g_index1 = $_g_index;
-			#src/App.hx:45: lines 45-71
-			$_g_index = $_g_index + $_g_chunkSize;
-			#src/App.hx:45: lines 45-71
-			$filesChunk = $_g_array->slice($_g_index1, $_g_index);
-			#src/App.hx:46: lines 46-48
-			$_g = 0;
-			#src/App.hx:46: lines 46-48
-			while ($_g < $filesChunk->length) {
-				#src/App.hx:46: characters 17-21
-				$file = ($filesChunk->arr[$_g] ?? null);
-				#src/App.hx:46: lines 46-48
-				$_g = $_g + 1;
-				#src/App.hx:47: characters 16-66
-				$this->searchAndReplaceInFile($this->search, $this->replace, $file);
-			}
-
-		}
-
+		#src/App.hx:37: characters 8-13
+		(Log::$trace)($this, new HxAnon([
+			"fileName" => "App.hx",
+			"lineNumber" => 37,
+			"className" => "src.App",
+			"methodName" => "run",
+		]));
+		#src/App.hx:38: characters 8-14
+		return;
 	}
 
 
@@ -192,43 +164,43 @@ class App {
 	 * @return void
 	 */
 	public function searchAndReplaceInFile ($search = "", $replace = "", $filePath) {
-		#src/App.hx:106: lines 106-129
+		#src/App.hx:110: lines 110-133
 		if ($search === null) {
-			#src/App.hx:106: lines 106-129
+			#src/App.hx:110: lines 110-133
 			$search = "";
 		}
-		#src/App.hx:106: lines 106-129
+		#src/App.hx:110: lines 110-133
 		if ($replace === null) {
-			#src/App.hx:106: lines 106-129
+			#src/App.hx:110: lines 110-133
 			$replace = "";
 		}
-		#src/App.hx:107: lines 107-109
+		#src/App.hx:111: lines 111-113
 		if (!file_exists($filePath)) {
-			#src/App.hx:108: characters 12-60
+			#src/App.hx:112: characters 12-60
 			$this->error("File: '" . ($filePath??'null') . "' does not exist");
 		}
-		#src/App.hx:111: lines 111-116
+		#src/App.hx:115: lines 115-120
 		if ((strlen($search) === 0) || (strlen($replace) === 0)) {
-			#src/App.hx:115: characters 12-57
+			#src/App.hx:119: characters 12-57
 			$this->error("Search and Replace are required");
 		}
-		#src/App.hx:118: characters 8-52
+		#src/App.hx:122: characters 8-52
 		$fileContent = File::getContent($filePath);
-		#src/App.hx:119: characters 8-48
+		#src/App.hx:123: characters 8-48
 		$searchRegex = new \EReg($search, "g");
-		#src/App.hx:120: characters 8-50
+		#src/App.hx:124: characters 8-50
 		$newLineRegex = new \EReg("\\\\n", "g");
-		#src/App.hx:122: characters 8-99
+		#src/App.hx:126: characters 8-99
 		$updatedContent = $searchRegex->replace($fileContent, $newLineRegex->replace($replace, "\x0A"));
-		#src/App.hx:124: lines 124-128
+		#src/App.hx:128: lines 128-132
 		try {
-			#src/App.hx:125: characters 12-54
+			#src/App.hx:129: characters 12-54
 			File::saveContent($filePath, $updatedContent);
 		} catch (\Throwable $__hx__caught_e) {
 			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
 			if (is_string($__hx__real_e)) {
 				$errorMessage = $__hx__real_e;
-				#src/App.hx:127: characters 12-36
+				#src/App.hx:131: characters 12-36
 				$this->error($errorMessage);
 			} else  throw $__hx__caught_e;
 		}

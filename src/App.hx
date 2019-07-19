@@ -9,14 +9,16 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 
-class App
+class App extends Cli
 {
-    private var directory: String;
-    private var fileExtension: String;
-    private var search: String;
-    private var replace: String;
-    private var branchname: String;
-    private var pullRequestMessage: String;
+    @:flag("-d")
+    public var directory: String;
+
+    public var fileExtension: String;
+    public var search: String;
+    public var replace: String;
+    public var branchname: String;
+    public var pullRequestMessage: String;
 
     public function new() 
     {
@@ -32,6 +34,8 @@ class App
 
     public function run(): Void
     {
+
+        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }
