@@ -42,6 +42,20 @@ class Bytes {
 		#/usr/share/haxe/std/php7/_std/haxe/io/Bytes.hx:32: characters 2-12
 		$this->b = $b;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function toString () {
+		#/usr/share/haxe/std/php7/_std/haxe/io/Bytes.hx:165: characters 2-10
+		return $this->b->s;
+	}
+
+
+	public function __toString() {
+		return $this->toString();
+	}
 }
 
 
