@@ -52,27 +52,27 @@ class App extends Cli
                 this.searchAndReplaceInFile(search, replace, file);
             }
 
-            // var start = range;
-            // var end = range += chunk;
+            var start = range;
+            var end = range += chunk;
 
-            // // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
-            // var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
+            // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
+            var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
             
-            // // Commands for creating, adding, and pushing the batched branches
-            // if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
-            //     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
-            //     new Process("git", ["push", "-u"]).exitCode();
+            // Commands for creating, adding, and pushing the batched branches
+            if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
+                new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
+                new Process("git", ["push", "-u"]).exitCode();
                 
-            //     Hub.pullRequest(["-m", 'Update batch $start - $end', "-m", this.pullRequestMessage], function(process) {
-            //         Sys.print(process.stdout.readAll().toString());
-            //         process.exitCode();
-            //         process.close();
-            //     });
+                Hub.pullRequest(["-m", 'Update batch $start - $end', "-m", this.pullRequestMessage], function(process) {
+                    Sys.print(process.stdout.readAll().toString());
+                    process.exitCode();
+                    process.close();
+                });
 
-            //     new Process("git", ["checkout", "-"]).exitCode();
-            // } else {
-            //     this.error('Could not checkout branch \'$branchnameRange\'.');
-            // }
+                new Process("git", ["checkout", "-"]).exitCode();
+            } else {
+                this.error('Could not checkout branch \'$branchnameRange\'.');
+            }
         }
     }
 
