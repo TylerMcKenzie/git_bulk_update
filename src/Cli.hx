@@ -42,4 +42,6 @@ class Cli {
 
         return macro $b{exprs};
     }
+
+    public function run(): Void {}
 }

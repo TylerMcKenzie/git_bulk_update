@@ -14,10 +14,19 @@ class App extends Cli
     @:flag("-d")
     public var directory: String;
 
+    @:flag("-f")
     public var fileExtension: String;
+
+    @:flag("-s")
     public var search: String;
+
+    @:flag("-r")
     public var replace: String;
+
+    @:flag("-b")
     public var branchname: String;
+
+    @:flag("-p")
     public var pullRequestMessage: String;
 
     public function new() 
@@ -26,10 +35,8 @@ class App extends Cli
         Cli.processArgs();
     }
 
-    public function run(): Void
+    override public function run(): Void
     {
-
-        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }
