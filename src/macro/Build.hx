@@ -49,8 +49,6 @@ class Build
         };
 
         fields.push(field);
-        
-
-        return fields;
+        return null;
     }
 }

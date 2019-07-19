@@ -7,11 +7,12 @@ namespace src;
 
 use \php\Boot;
 
-interface Cli {
+class Cli {
 	/**
 	 * @return void
 	 */
-	public function run () ;
+	public function __construct () {
+	}
 }
 
 

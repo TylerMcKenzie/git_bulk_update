@@ -22,14 +22,8 @@ class App extends Cli
 
     public function new() 
     {
-        var args = Sys.args();
-
-        this.directory          = args[0];
-        this.fileExtension      = args[1];
-        this.search             = args[2];
-        this.replace            = args[3];
-        this.branchname         = args[4] != null ? args[4] : '';
-        this.pullRequestMessage = args[5] != null ? args[5] : '';
+        super();
+        Cli.processArgs();
     }
 
     public function run(): Void
