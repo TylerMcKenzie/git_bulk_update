@@ -32,11 +32,33 @@ class Cli {
                     }
 
                     if (flag != null) {
-                        var expr = macro $i{field.name} = args[args.indexOf($v{flag})+1];
+                        var expr = null;
 
-                        exprs.push(expr);
+                        switch (field.type) {
+                            case TAbstract(_.get() => type, _):
+                                switch (type.name) {
+                                    case 'Bool':
+                                        expr = macro {
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1);
+                                        };
+                                    case 'Int':
+                                        expr = macro { 
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
+                                        };
+                                }
+
+                            case TInst(_ => type, _):
+                                expr = macro { 
+                                    $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : null;
+                                };
+                            case _:
+                        }
+
+                        if (expr != null) {
+                            exprs.push(expr);
+                        }
                     }
-                default:
+                case _:
             }
         }
 
