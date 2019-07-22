@@ -6,8 +6,105 @@
 namespace haxe\io;
 
 use \php\Boot;
+use \php\_Boot\HxException;
+use \haxe\io\_BytesData\Container;
 
 class Input {
+	/**
+	 * @param int $bufsize
+	 * 
+	 * @return Bytes
+	 */
+	public function readAll ($bufsize = null) {
+		#/usr/share/haxe/std/haxe/io/Input.hx:109: lines 109-111
+		if ($bufsize === null) {
+			#/usr/share/haxe/std/haxe/io/Input.hx:111: characters 3-17
+			$bufsize = 8192;
+		}
+		#/usr/share/haxe/std/haxe/io/Input.hx:116: characters 2-33
+		$buf = Bytes::alloc($bufsize);
+		#/usr/share/haxe/std/haxe/io/Input.hx:117: characters 2-40
+		$total = new BytesBuffer();
+		#/usr/share/haxe/std/haxe/io/Input.hx:118: lines 118-125
+		try {
+			#/usr/share/haxe/std/haxe/io/Input.hx:119: lines 119-124
+			while (true) {
+				#/usr/share/haxe/std/haxe/io/Input.hx:120: characters 4-39
+				$len = $this->readBytes($buf, 0, $bufsize);
+				#/usr/share/haxe/std/haxe/io/Input.hx:121: lines 121-122
+				if ($len === 0) {
+					#/usr/share/haxe/std/haxe/io/Input.hx:122: characters 5-10
+					throw new HxException(Error::Blocked());
+				}
+				#/usr/share/haxe/std/haxe/io/Input.hx:123: characters 4-29
+				if (($len < 0) || ($len > $buf->length)) {
+					#/usr/share/haxe/std/haxe/io/Input.hx:123: characters 4-29
+					throw new HxException(Error::OutsideBounds());
+				} else {
+					#/usr/share/haxe/std/haxe/io/Input.hx:123: characters 4-29
+					($total->b .= (new Container(substr($buf->b->s, 0, $len)))->s);
+				}
+			}
+		} catch (\Throwable $__hx__caught_e) {
+			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
+			if ($__hx__real_e instanceof Eof) {
+				$e = $__hx__real_e;
+							} else  throw $__hx__caught_e;
+		}
+		#/usr/share/haxe/std/haxe/io/Input.hx:126: characters 2-25
+		return $total->getBytes();
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function readByte () {
+		#/usr/share/haxe/std/haxe/io/Input.hx:53: characters 9-14
+		throw new HxException("Not implemented");
+	}
+
+
+	/**
+	 * @param Bytes $s
+	 * @param int $pos
+	 * @param int $len
+	 * 
+	 * @return int
+	 */
+	public function readBytes ($s, $pos, $len) {
+		#/usr/share/haxe/std/haxe/io/Input.hx:65: characters 2-14
+		$k = $len;
+		#/usr/share/haxe/std/haxe/io/Input.hx:66: characters 2-68
+		$b = $s->b;
+		#/usr/share/haxe/std/haxe/io/Input.hx:67: lines 67-68
+		if (($pos < 0) || ($len < 0) || (($pos + $len) > $s->length)) {
+			#/usr/share/haxe/std/haxe/io/Input.hx:68: characters 3-8
+			throw new HxException(Error::OutsideBounds());
+		}
+		#/usr/share/haxe/std/haxe/io/Input.hx:69: lines 69-83
+		try {
+			#/usr/share/haxe/std/haxe/io/Input.hx:70: lines 70-82
+			while ($k > 0) {
+				#/usr/share/haxe/std/haxe/io/Input.hx:74: characters 5-27
+				$val = $this->readByte();
+				#/usr/share/haxe/std/haxe/io/Input.hx:74: characters 5-27
+				$b->s = substr_replace($b->s, chr($val), $pos, 1);
+
+				#/usr/share/haxe/std/haxe/io/Input.hx:80: characters 4-9
+				$pos = $pos + 1;
+				#/usr/share/haxe/std/haxe/io/Input.hx:81: characters 4-7
+				$k = $k - 1;
+			}
+		} catch (\Throwable $__hx__caught_e) {
+			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
+			if ($__hx__real_e instanceof Eof) {
+				$eof = $__hx__real_e;
+							} else  throw $__hx__caught_e;
+		}
+		#/usr/share/haxe/std/haxe/io/Input.hx:84: characters 2-14
+		return $len - $k;
+	}
 }
 
 

@@ -150,6 +150,76 @@ class Process {
 	/**
 	 * @return void
 	 */
+	public function close () {
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:178: characters 2-22
+		if (!$this->running) {
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:178: characters 16-22
+			return;
+		}
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+		$_g_hasMore = null;
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+		$_g_arr = $this->pipes;
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 15-20
+		$_g_hasMore = reset($_g_arr) !== false;
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+		while ($_g_hasMore) {
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+			$result = current($_g_arr);
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+			$_g_hasMore = next($_g_arr) !== false;
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 2-41
+			$pipe = $result;
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:180: characters 22-41
+			fclose($pipe);
+		}
+
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:181: characters 2-22
+		proc_close($this->process);
+	}
+
+
+	/**
+	 * @param bool $block
+	 * 
+	 * @return int
+	 */
+	public function exitCode ($block = true) {
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:160: lines 160-171
+		if ($block === null) {
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:160: lines 160-171
+			$block = true;
+		}
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:161: lines 161-164
+		if (!$block) {
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:162: characters 3-17
+			$this->updateStatus();
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:163: characters 10-38
+			if ($this->running) {
+				#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:163: characters 21-25
+				return null;
+			} else {
+				#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:163: characters 28-37
+				return $this->_exitCode;
+			}
+		}
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:165: lines 165-169
+		while ($this->running) {
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:166: characters 3-39
+			$arr = [$this->process];
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:167: characters 3-61
+			@stream_select($arr, $arr, $arr, null);
+			#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:168: characters 3-17
+			$this->updateStatus();
+		}
+		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:170: characters 2-18
+		return $this->_exitCode;
+	}
+
+
+	/**
+	 * @return void
+	 */
 	public function updateStatus () {
 		#/usr/share/haxe/std/php7/_std/sys/io/Process.hx:203: characters 2-22
 		if (!$this->running) {
