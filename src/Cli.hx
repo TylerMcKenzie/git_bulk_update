@@ -33,7 +33,7 @@ class Cli {
 
                     if (flag != null) {
                         var expr = null;
-                        // trace(field);
+
                         switch (field.type) {
                             case TAbstract(_.get() => type, _):
                                 switch (type.name) {

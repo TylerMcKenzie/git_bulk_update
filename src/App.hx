@@ -43,8 +43,6 @@ class App extends Cli
 
     override public function run(): Void
     {
-        trace(this.chunk);
-        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }
@@ -56,7 +54,7 @@ class App extends Cli
 
         for (filesChunk in new ChunkIterator(files, this.chunk)) {
             for (file in filesChunk) {
-                // this.searchAndReplaceInFile(search, replace, file);
+                this.searchAndReplaceInFile(search, replace, file);
             }
             
             // Commands for creating, adding, and pushing the batched branches
