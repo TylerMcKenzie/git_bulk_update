@@ -33,7 +33,10 @@ class App extends Cli
     public var pullRequestMessage: String;
 
     @:flag("--chunk")
-    public var chunk:Int = 50;
+    public var chunk: Null<Int> = 50;
+
+    @:flag("--dry")
+    public var dryRun: Bool;
 
     public function new() 
     {
@@ -56,9 +59,22 @@ class App extends Cli
             for (file in filesChunk) {
                 this.searchAndReplaceInFile(search, replace, file);
             }
+
+            if (this.dryRun) {
+                var testProcess = new Process("git", ["diff", "--name-only"]);
+
+                if (testProcess.stdout.readAll().toString().length > 0) {
+                    Sys.command("git", ["diff"]);
+                    Sys.command("git", ["checkout", this.directory]);
+                    testProcess.close();
+                    return;
+                }
+
+                testProcess.close();
+            }
             
             // Commands for creating, adding, and pushing the batched branches
-            if (this.createPull) {
+            if (this.createPull && !this.dryRun) {
                 var start = range;
                 var end = range += this.chunk;
                 
