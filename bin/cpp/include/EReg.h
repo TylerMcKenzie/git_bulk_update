@@ -43,7 +43,11 @@ class HXCPP_CLASS_ATTRIBUTES EReg_obj : public hx::Object
 		::String __ToString() const { return HX_HCSTRING("EReg","\x0f","\x4a","\xda","\x2d"); }
 
 		 ::Dynamic r;
+		::String last;
 		bool global;
+		bool match(::String s);
+		::Dynamic match_dyn();
+
 		::String replace(::String s,::String by);
 		::Dynamic replace_dyn();
 

@@ -8,6 +8,7 @@
 HX_DEFINE_STACK_FRAME(_hx_pos_7d06a5e189b00d33_31_new,"StringBuf","new",0xaaa8f4b4,"StringBuf.new","/usr/share/haxe/std/cpp/_std/StringBuf.hx",31,0x59033f00)
 HX_LOCAL_STACK_FRAME(_hx_pos_7d06a5e189b00d33_35_charBufAsString,"StringBuf","charBufAsString",0x54d38cd4,"StringBuf.charBufAsString","/usr/share/haxe/std/cpp/_std/StringBuf.hx",35,0x59033f00)
 HX_LOCAL_STACK_FRAME(_hx_pos_7d06a5e189b00d33_41_flush,"StringBuf","flush",0xc7c14418,"StringBuf.flush","/usr/share/haxe/std/cpp/_std/StringBuf.hx",41,0x59033f00)
+HX_LOCAL_STACK_FRAME(_hx_pos_7d06a5e189b00d33_48_get_length,"StringBuf","get_length",0xe673d2db,"StringBuf.get_length","/usr/share/haxe/std/cpp/_std/StringBuf.hx",48,0x59033f00)
 HX_LOCAL_STACK_FRAME(_hx_pos_7d06a5e189b00d33_79_toString,"StringBuf","toString",0x68f17bd8,"StringBuf.toString","/usr/share/haxe/std/cpp/_std/StringBuf.hx",79,0x59033f00)
 
 void StringBuf_obj::__construct(){
@@ -54,6 +55,34 @@ HXLINE(  46)		this->charBuf = null();
 
 
 HX_DEFINE_DYNAMIC_FUNC0(StringBuf_obj,flush,(void))
+
+int StringBuf_obj::get_length(){
+            	HX_STACKFRAME(&_hx_pos_7d06a5e189b00d33_48_get_length)
+HXLINE(  49)		int len = (int)0;
+HXLINE(  50)		if (hx::IsNotNull( this->charBuf )) {
+HXLINE(  51)			len = this->charBuf->length;
+            		}
+HXLINE(  52)		if (hx::IsNotNull( this->b )) {
+HXLINE(  53)			int _g = (int)0;
+HXDLIN(  53)			::Array< ::String > _g1 = this->b;
+HXDLIN(  53)			while((_g < _g1->length)){
+HXLINE(  53)				::String s = _g1->__get(_g);
+HXDLIN(  53)				_g = (_g + (int)1);
+HXLINE(  54)				int len1;
+HXDLIN(  54)				if (hx::IsNull( s )) {
+HXLINE(  54)					len1 = (int)4;
+            				}
+            				else {
+HXLINE(  54)					len1 = s.length;
+            				}
+HXDLIN(  54)				len = (len + len1);
+            			}
+            		}
+HXLINE(  55)		return len;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(StringBuf_obj,get_length,return )
 
 ::String StringBuf_obj::toString(){
             	HX_STACKFRAME(&_hx_pos_7d06a5e189b00d33_79_toString)
@@ -107,11 +136,17 @@ hx::Val StringBuf_obj::__Field(const ::String &inName,hx::PropertyAccess inCallP
 	case 5:
 		if (HX_FIELD_EQ(inName,"flush") ) { return hx::Val( flush_dyn() ); }
 		break;
+	case 6:
+		if (HX_FIELD_EQ(inName,"length") ) { if (inCallProp == hx::paccAlways) return hx::Val( get_length() ); }
+		break;
 	case 7:
 		if (HX_FIELD_EQ(inName,"charBuf") ) { return hx::Val( charBuf ); }
 		break;
 	case 8:
 		if (HX_FIELD_EQ(inName,"toString") ) { return hx::Val( toString_dyn() ); }
+		break;
+	case 10:
+		if (HX_FIELD_EQ(inName,"get_length") ) { return hx::Val( get_length_dyn() ); }
 		break;
 	case 15:
 		if (HX_FIELD_EQ(inName,"charBufAsString") ) { return hx::Val( charBufAsString_dyn() ); }
@@ -153,6 +188,7 @@ static ::String StringBuf_obj_sMemberFields[] = {
 	HX_HCSTRING("charBuf","\xfd","\x85","\x55","\xcf"),
 	HX_HCSTRING("charBufAsString","\x80","\x3a","\x2f","\x0a"),
 	HX_HCSTRING("flush","\xc4","\x62","\x9b","\x02"),
+	HX_HCSTRING("get_length","\xaf","\x04","\x8f","\x8f"),
 	HX_HCSTRING("toString","\xac","\xd0","\x6e","\x38"),
 	::String(null()) };
 
