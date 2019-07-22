@@ -43,7 +43,7 @@ class Cli {
                                         };
                                     case 'Int':
                                         expr = macro { 
-                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : null;
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
                                         };
                                 }
 
