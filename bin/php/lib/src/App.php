@@ -88,14 +88,14 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function error ($msg = "") {
-		#src/App.hx:105: lines 105-108
+		#src/App.hx:107: lines 107-110
 		if ($msg === null) {
-			#src/App.hx:105: lines 105-108
+			#src/App.hx:107: lines 107-110
 			$msg = "";
 		}
-		#src/App.hx:106: characters 8-24
+		#src/App.hx:108: characters 8-24
 		\Sys::println($msg);
-		#src/App.hx:107: characters 8-19
+		#src/App.hx:109: characters 8-19
 		exit(1);
 	}
 
@@ -107,50 +107,50 @@ class App extends Cli {
 	 * @return \Array_hx
 	 */
 	public function getAllFiles ($directory, $files) {
-		#src/App.hx:112: lines 112-130
+		#src/App.hx:114: lines 114-132
 		if (file_exists($directory)) {
-			#src/App.hx:113: lines 113-127
+			#src/App.hx:115: lines 115-129
 			if (is_dir($directory)) {
-				#src/App.hx:114: lines 114-124
+				#src/App.hx:116: lines 116-126
 				$_g = 0;
-				#src/App.hx:114: lines 114-124
+				#src/App.hx:116: lines 116-126
 				$_g1 = FileSystem::readDirectory($directory);
-				#src/App.hx:114: lines 114-124
+				#src/App.hx:116: lines 116-126
 				while ($_g < $_g1->length) {
-					#src/App.hx:114: characters 21-25
+					#src/App.hx:116: characters 21-25
 					$file = ($_g1->arr[$_g] ?? null);
-					#src/App.hx:114: lines 114-124
+					#src/App.hx:116: lines 116-126
 					$_g = $_g + 1;
-					#src/App.hx:115: characters 20-64
+					#src/App.hx:117: characters 20-64
 					$filePath = Path::join(\Array_hx::wrap([
 						$directory,
 						$file,
 					]));
-					#src/App.hx:117: lines 117-123
+					#src/App.hx:119: lines 119-125
 					if (!is_dir($filePath)) {
-						#src/App.hx:118: lines 118-120
+						#src/App.hx:120: lines 120-122
 						if (Path::extension($filePath) === $this->fileExtension) {
-							#src/App.hx:119: characters 28-48
+							#src/App.hx:121: characters 28-48
 							$files->arr[$files->length] = $filePath;
-							#src/App.hx:119: characters 28-48
+							#src/App.hx:121: characters 28-48
 							++$files->length;
 						}
 					} else {
-						#src/App.hx:122: characters 24-80
+						#src/App.hx:124: characters 24-80
 						$this->getAllFiles(Path::addTrailingSlash($filePath), $files);
 					}
 				}
 			} else {
-				#src/App.hx:126: characters 16-37
+				#src/App.hx:128: characters 16-37
 				$files->arr[$files->length] = $directory;
-				#src/App.hx:126: characters 16-37
+				#src/App.hx:128: characters 16-37
 				++$files->length;
 			}
 		} else {
-			#src/App.hx:129: characters 11-64
+			#src/App.hx:131: characters 11-64
 			$this->error("Directory '" . ($directory??'null') . "' does not exist");
 		}
-		#src/App.hx:132: characters 8-20
+		#src/App.hx:134: characters 8-20
 		return $files;
 	}
 
@@ -168,11 +168,11 @@ class App extends Cli {
 		$files = $this->getAllFiles($this->directory, new \Array_hx());
 		#src/App.hx:55: characters 8-22
 		$range = 0;
-		#src/App.hx:58: lines 58-101
+		#src/App.hx:58: lines 58-103
 		$_g_index = null;
-		#src/App.hx:58: lines 58-101
+		#src/App.hx:58: lines 58-103
 		$_g_chunkSize = null;
-		#src/App.hx:58: lines 58-101
+		#src/App.hx:58: lines 58-103
 		$_g_array = null;
 		#src/App.hx:58: characters 27-63
 		$_g_index = 0;
@@ -180,13 +180,13 @@ class App extends Cli {
 		$_g_array = $files;
 		#src/App.hx:58: characters 27-63
 		$_g_chunkSize = $this->chunk;
-		#src/App.hx:58: lines 58-101
+		#src/App.hx:58: lines 58-103
 		while ($_g_index < $_g_array->length) {
-			#src/App.hx:58: lines 58-101
+			#src/App.hx:58: lines 58-103
 			$_g_index1 = $_g_index;
-			#src/App.hx:58: lines 58-101
+			#src/App.hx:58: lines 58-103
 			$_g_index = $_g_index + $_g_chunkSize;
-			#src/App.hx:58: lines 58-101
+			#src/App.hx:58: lines 58-103
 			$filesChunk = $_g_array->slice($_g_index1, $_g_index);
 			#src/App.hx:59: lines 59-61
 			$_g = 0;
@@ -200,86 +200,86 @@ class App extends Cli {
 				$this->searchAndReplaceInFile($this->search, $this->replace, $file);
 			}
 
-			#src/App.hx:63: lines 63-72
+			#src/App.hx:63: lines 63-74
 			if ($this->dryRun) {
 				#src/App.hx:64: characters 16-78
 				$testProcess = new Process("git", \Array_hx::wrap([
 					"diff",
 					"--name-only",
 				]));
-				#src/App.hx:65: lines 65-70
+				#src/App.hx:66: lines 66-71
 				if (strlen($testProcess->stdout->readAll()->toString()) > 0) {
-					#src/App.hx:66: characters 20-48
+					#src/App.hx:67: characters 20-48
 					\Sys::command("git", \Array_hx::wrap(["diff"]));
-					#src/App.hx:67: characters 20-68
+					#src/App.hx:68: characters 20-68
 					\Sys::command("git", \Array_hx::wrap([
 						"checkout",
 						$this->directory,
 					]));
-					#src/App.hx:68: characters 20-39
+					#src/App.hx:69: characters 20-39
 					$testProcess->close();
-					#src/App.hx:69: characters 20-26
+					#src/App.hx:70: characters 20-26
 					return;
 				}
-				#src/App.hx:71: characters 16-35
+				#src/App.hx:73: characters 16-35
 				$testProcess->close();
 			}
-			#src/App.hx:75: lines 75-100
+			#src/App.hx:77: lines 77-102
 			if ($this->createPull && !$this->dryRun) {
-				#src/App.hx:76: characters 16-34
+				#src/App.hx:78: characters 16-34
 				$start = $range;
-				#src/App.hx:77: characters 26-45
+				#src/App.hx:79: characters 26-45
 				$range = $range + $this->chunk;
-				#src/App.hx:77: characters 16-46
+				#src/App.hx:79: characters 16-46
 				$end = $range;
-				#src/App.hx:79: characters 16-117
+				#src/App.hx:81: characters 16-117
 				if ($this->branchname === null) {
-					#src/App.hx:79: characters 45-117
+					#src/App.hx:81: characters 45-117
 					$this->error("'-b' branch flag is required when creating a pull request.");
 				}
-				#src/App.hx:82: characters 16-86
+				#src/App.hx:84: characters 16-86
 				$branchnameRange = ($this->branchname??'null') . "_batch_" . ($start??'null') . "_" . ($end??'null');
-				#src/App.hx:84: lines 84-99
+				#src/App.hx:86: lines 86-101
 				if ((new Process("git", \Array_hx::wrap([
 					"checkout",
 					"-b",
 					$branchnameRange,
 					"master",
 				])))->exitCode() === 0) {
-					#src/App.hx:85: characters 20-109
+					#src/App.hx:87: characters 20-109
 					(new Process("git", \Array_hx::wrap([
 						"commit",
 						"-am",
 						"Adding update for batch " . ($start??'null') . " - " . ($end??'null'),
 					])))->exitCode();
-					#src/App.hx:86: characters 20-65
+					#src/App.hx:88: characters 20-65
 					(new Process("git", \Array_hx::wrap([
 						"push",
 						"-u",
 					])))->exitCode();
-					#src/App.hx:88: characters 20-99
+					#src/App.hx:90: characters 20-99
 					$message = ($this->pullRequestMessage !== null ? $this->pullRequestMessage : "");
-					#src/App.hx:90: lines 90-94
+					#src/App.hx:92: lines 92-96
 					Hub::pullRequest(\Array_hx::wrap([
 						"-m",
 						"Update batch " . ($start??'null') . " - " . ($end??'null'),
 						"-m",
 						$message,
 					]), function ($process) {
-						#src/App.hx:91: characters 24-70
+						#src/App.hx:93: characters 24-70
 						echo(\Std::string($process->stdout->readAll()->toString()));
-						#src/App.hx:92: characters 24-42
+						#src/App.hx:94: characters 24-42
 						$process->exitCode();
-						#src/App.hx:93: characters 24-39
+						#src/App.hx:95: characters 24-39
 						$process->close();
 					});
-					#src/App.hx:96: characters 20-68
+					#src/App.hx:98: characters 20-68
 					(new Process("git", \Array_hx::wrap([
 						"checkout",
 						"-",
 					])))->exitCode();
 				} else {
-					#src/App.hx:98: characters 20-81
+					#src/App.hx:100: characters 20-81
 					$this->error("Could not checkout branch '" . ($branchnameRange??'null') . "'.");
 				}
 			}
@@ -296,43 +296,43 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function searchAndReplaceInFile ($search = "", $replace = "", $filePath) {
-		#src/App.hx:136: lines 136-159
+		#src/App.hx:138: lines 138-161
 		if ($search === null) {
-			#src/App.hx:136: lines 136-159
+			#src/App.hx:138: lines 138-161
 			$search = "";
 		}
-		#src/App.hx:136: lines 136-159
+		#src/App.hx:138: lines 138-161
 		if ($replace === null) {
-			#src/App.hx:136: lines 136-159
+			#src/App.hx:138: lines 138-161
 			$replace = "";
 		}
-		#src/App.hx:137: lines 137-139
+		#src/App.hx:139: lines 139-141
 		if (!file_exists($filePath)) {
-			#src/App.hx:138: characters 12-60
+			#src/App.hx:140: characters 12-60
 			$this->error("File: '" . ($filePath??'null') . "' does not exist");
 		}
-		#src/App.hx:141: lines 141-146
+		#src/App.hx:143: lines 143-148
 		if ((strlen($search) === 0) || (strlen($replace) === 0)) {
-			#src/App.hx:145: characters 12-57
+			#src/App.hx:147: characters 12-57
 			$this->error("Search and Replace are required");
 		}
-		#src/App.hx:148: characters 8-52
+		#src/App.hx:150: characters 8-52
 		$fileContent = File::getContent($filePath);
-		#src/App.hx:149: characters 8-48
+		#src/App.hx:151: characters 8-48
 		$searchRegex = new \EReg($search, "g");
-		#src/App.hx:150: characters 8-50
+		#src/App.hx:152: characters 8-50
 		$newLineRegex = new \EReg("\\\\n", "g");
-		#src/App.hx:152: characters 8-99
+		#src/App.hx:154: characters 8-99
 		$updatedContent = $searchRegex->replace($fileContent, $newLineRegex->replace($replace, "\x0A"));
-		#src/App.hx:154: lines 154-158
+		#src/App.hx:156: lines 156-160
 		try {
-			#src/App.hx:155: characters 12-54
+			#src/App.hx:157: characters 12-54
 			File::saveContent($filePath, $updatedContent);
 		} catch (\Throwable $__hx__caught_e) {
 			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
 			if (is_string($__hx__real_e)) {
 				$errorMessage = $__hx__real_e;
-				#src/App.hx:157: characters 12-36
+				#src/App.hx:159: characters 12-36
 				$this->error($errorMessage);
 			} else  throw $__hx__caught_e;
 		}
