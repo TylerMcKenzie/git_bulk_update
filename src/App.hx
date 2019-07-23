@@ -59,22 +59,30 @@ class App extends Cli
         var range = 0;
         // var directoryName = Path.directory(this.directory).split("/").pop();
         var chunkIterator = new ChunkIterator<String>(files, this.chunk);
+
+        function getFullChunkUpdates(filesToUpdate)
+        {
+            this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
+
+            var changedFileCount = this.getChangedFileCount();
+            if (changedFileCount != this.chunk) {
+                var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
+                getFullChunkUpdates(nextFilesToUpdate);
+            }
+        }
+
+
         for (filesChunk in chunkIterator) {
             if (this.dryRun || !this.createPull) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
 
             if (this.dryRun) {
-                var testProcess = new Process("git", ["diff", "--name-only"]);
+                getFullChunkUpdates(filesChunk);
 
-                if (testProcess.stdout.readAll().toString().length > 0) {
-                    Sys.command("git", ["diff"]);
-                    Sys.command("git", ["checkout", this.directory]);
-                    testProcess.close();
-                    return;
-                }
-
-                testProcess.close();
+                Sys.command("git", ["diff"]);
+                Sys.command("git", ["checkout", this.directory]);
+                return;
             }
             
             // Commands for creating, adding, and pushing the batched branches
@@ -89,17 +97,6 @@ class App extends Cli
                 
                 if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
                     // Run updates now that we are on a new branch
-                    function getFullChunkUpdates(filesToUpdate)
-                    {
-                        this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
-
-                        var changedFileCount = this.getChangedFileCount();
-                        if (changedFileCount != this.chunk) {
-                            var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
-                            getFullChunkUpdates(nextFilesToUpdate);
-                        }
-                    }
-
                     getFullChunkUpdates(filesChunk);
 
                     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
