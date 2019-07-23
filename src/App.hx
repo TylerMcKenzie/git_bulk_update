@@ -160,10 +160,11 @@ class App extends Cli
     {
         var diffProcess = new Process("git", ["diff", "--name-only"]);
         diffProcess.exitCode();
-        var filesCount = diffProcess.stdout.readAll().toString().split("\n").length;
+        var filesCount = diffProcess.stdout.readAll().toString().split("\n");
+        trace(filesCount);
         diffProcess.close();
 
-        return filesCount;
+        return filesCount.length;
     }
 
     private function searchAndReplaceInFile(search: String = '', replace: String = '', filePath: String): Void
