@@ -66,15 +66,15 @@ class App extends Cli
 
             var changedFileCount = this.getChangedFileCount();
             trace(changedFileCount);
+            trace(filesToUpdate.length);
             if (changedFileCount != this.chunk) {
                 var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
                 getFullChunkUpdates(nextFilesToUpdate);
             }
         }
 
-
         for (filesChunk in chunkIterator) {
-            if (this.dryRun || !this.createPull) {
+            if (this.dryRun && !this.createPull) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
 
@@ -133,7 +133,11 @@ class App extends Cli
                     var filePath = Path.join([directory, file]);
 
                     if (!FileSystem.isDirectory(filePath)) {
-                        if (Path.extension(filePath) == this.fileExtension) {
+                        if (this.fileExtension != null) {
+                            if (Path.extension(filePath) == this.fileExtension) {
+                                files.push(filePath);
+                            }
+                        } else {
                             files.push(filePath);
                         }
                     } else {
