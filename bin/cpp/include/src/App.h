@@ -65,6 +65,9 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 		::Array< ::String > getAllFiles(::String directory,::Array< ::String > files);
 		::Dynamic getAllFiles_dyn();
 
+		int getChangedFileCount();
+		::Dynamic getChangedFileCount_dyn();
+
 		void searchAndReplaceInFile(::String search,::String replace,::String filePath);
 		::Dynamic searchAndReplaceInFile_dyn();
 

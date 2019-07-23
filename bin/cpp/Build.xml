@@ -43,6 +43,9 @@
    <depend name="include/src/util/Hub.h"/>
    <depend name="include/sys/io/Process.h"/>
   </file>
+  <file name="src/src/util/ChunkIterator.cpp" >
+   <depend name="include/src/util/ChunkIterator.h"/>
+  </file>
   <file name="src/src/App.cpp" >
    <depend name="include/EReg.h"/>
    <depend name="include/Sys.h"/>
@@ -51,6 +54,7 @@
    <depend name="include/haxe/io/Path.h"/>
    <depend name="include/src/App.h"/>
    <depend name="include/src/Cli.h"/>
+   <depend name="include/src/util/ChunkIterator.h"/>
    <depend name="include/src/util/Hub.h"/>
    <depend name="include/sys/FileSystem.h"/>
    <depend name="include/sys/io/File.h"/>

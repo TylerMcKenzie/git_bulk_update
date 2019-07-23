@@ -23,6 +23,7 @@ const char *__hxcpp_all_files[] = {
 "App.hx",
 "Cli.hx",
 "Main.hx",
+"util/ChunkIterator.hx",
 "util/Hub.hx",
 #endif
  0 };
@@ -48,6 +49,7 @@ const char *__hxcpp_all_files_fullpath[] = {
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/App.hx",
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/Cli.hx",
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/Main.hx",
+"/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/util/ChunkIterator.hx",
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/util/Hub.hx",
 #endif
  0 };
@@ -68,6 +70,7 @@ const char *__hxcpp_all_classes[] = {
 "haxe.io.Path",
 "src.Cli",
 "src.App",
+"src.util.ChunkIterator",
 "src.util.Hub",
 "sys.FileSystem",
 "sys.io.File",

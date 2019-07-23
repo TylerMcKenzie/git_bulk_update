@@ -28,6 +28,9 @@
 #ifndef INCLUDED_sys_FileSystem
 #include <sys/FileSystem.h>
 #endif
+#ifndef INCLUDED_src_util_ChunkIterator
+#include <src/util/ChunkIterator.h>
+#endif
 #ifndef INCLUDED_src_App
 #include <src/App.h>
 #endif
@@ -83,6 +86,7 @@ hx::RegisterResources( hx::GetResources() );
 ::sys::io::FileOutput_obj::__register();
 ::sys::io::File_obj::__register();
 ::sys::FileSystem_obj::__register();
+::src::util::ChunkIterator_obj::__register();
 ::src::App_obj::__register();
 ::src::Cli_obj::__register();
 ::haxe::io::Path_obj::__register();
