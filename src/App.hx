@@ -58,8 +58,8 @@ class App extends Cli
 
         var range = 0;
         // var directoryName = Path.directory(this.directory).split("/").pop();
-
-        for (filesChunk in new ChunkIterator<String>(files, this.chunk)) {
+        var chunkIterator = new ChunkIterator<String>(files, this.chunk);
+        for (filesChunk in chunkIterator) {
             if (this.dryRun || !this.createPull) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
@@ -89,7 +89,18 @@ class App extends Cli
                 
                 if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
                     // Run updates now that we are on a new branch
-                    this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
+                    function getFullChunkUpdates(filesToUpdate)
+                    {
+                        this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
+
+                        var changedFileCount = this.getChangedFileCount();
+                        if (changedFileCount != this.chunk) {
+                            var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
+                            getFullChunkUpdates(nextFilesToUpdate);
+                        }
+                    }
+
+                    getFullChunkUpdates(filesChunk);
 
                     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
                     new Process("git", ["push", "-u", "origin", branchnameRange]).exitCode();
@@ -139,6 +150,16 @@ class App extends Cli
         }
 
         return files;
+    }
+
+    private function getChangedFileCount(): Int
+    {
+        var diffProcess = new Process("git", ["diff", "--name-only"]);
+        diffProcess.exitCode();
+        var filesCount = diffProcess.stdout.readAll().toString().split("\n").length;
+        diffProcess.close();
+
+        return filesCount;
     }
 
     private function searchAndReplaceInFile(search: String = '', replace: String = '', filePath: String): Void

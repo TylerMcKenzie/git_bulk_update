@@ -14,11 +14,22 @@ class ChunkIterator<T>
 
     inline public function hasNext()
     {
-        return index < array.length;
+        return this.index < this.array.length;
     }
 
     inline public function next()
     {
-        return array.slice(index, index += chunkSize);
+        return this.getNextChunk();
+    }
+
+    inline public function getNextChunk(?chunk: Int)
+    {
+        var nextChunk = (chunk != null) ? chunk : this.chunkSize;
+        return this.chunk(this.index, this.index += nextChunk);
+    }
+
+    inline private function chunk(start: Int, end: Int)
+    {
+        return this.array.slice(start, end);
     }
 }
