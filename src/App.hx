@@ -18,10 +18,10 @@ class App extends Cli
     public var fileExtension: String;
 
     @:flag("-s")
-    public var search: String;
+    public var search: Array<String>;
 
     @:flag("-r")
-    public var replace: String;
+    public var replace: Array<String>;
 
     @:flag("-b")
     public var branchname: String;
@@ -50,6 +50,10 @@ class App extends Cli
             this.error("Test directory is required");
         }
 
+        if (this.search.length != this.replace.length) {
+            this.error('Each search should have an equivalent replace. Got ${this.search.length} searches and ${this.replace.length} replaces.');
+        }
+
         var files = this.getAllFiles(this.directory, new Array<String>());
 
         var range = 0;
@@ -57,7 +61,9 @@ class App extends Cli
 
         for (filesChunk in new ChunkIterator(files, this.chunk)) {
             for (file in filesChunk) {
-                this.searchAndReplaceInFile(search, replace, file);
+                for (i in 0...this.search.length) {
+                    this.searchAndReplaceInFile(search[i], replace[i], file);
+                }
             }
 
             if (this.dryRun) {

@@ -47,10 +47,17 @@ class Cli {
                                         };
                                 }
 
-                            case TInst(_ => type, _):
-                                expr = macro { 
-                                    $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : null;
-                                };
+                            case TInst(_.get() => type, _):
+                                switch(type.name) {
+                                    case 'String':
+                                        expr = macro {
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : null;
+                                        };
+                                    case 'Array':
+                                        expr = macro {
+                                            $p{["this", field.name]} = [for (i in 0...args.length) if (args[i] == $v{ flag }) args[i+1]];
+                                        };
+                                }
                             case _:
                         }
 
