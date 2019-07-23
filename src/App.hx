@@ -33,7 +33,8 @@ class App extends Cli
     public var pullRequestMessage: String;
 
     @:flag("--chunk")
-    public var chunk: Null<Int> = 50;
+    @:default(50)
+    public var chunk: Null<Int>;
 
     @:flag("--dry")
     public var dryRun: Bool;
@@ -46,6 +47,8 @@ class App extends Cli
 
     override public function run(): Void
     {
+        trace(this.chunk);
+        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }

@@ -22,13 +22,23 @@ class Cli {
             switch (field.kind) {
                 case FVar(_):
                     var flag = null;
-                    
+                    var defaultValue = null;
+
                     switch (field.meta.extract(":flag")) {
                         case [{params: params}]:
-                            
+
                             if (params.length > 1) throw 'Annotation \':flag\' expects 1 parameter got ${params.length} instead.';
 
                             flag = ExprTools.getValue(params[0]);
+                        default:
+                    }
+
+                    switch (field.meta.extract(":default")) {
+                        case [{params: params}]:
+
+                            if (params.length > 1) throw 'Annotation \':default\' expects 1 parameter got ${params.length} instead.';
+
+                            defaultValue = ExprTools.getValue(params[0]);
                         default:
                     }
 
@@ -44,7 +54,7 @@ class Cli {
                                         };
                                     case 'Int':
                                         expr = macro {
-                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : $v{ defaultValue };
                                         };
                                 }
 
@@ -52,7 +62,7 @@ class Cli {
                                 switch(type.name) {
                                     case 'String':
                                         expr = macro {
-                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : null;
+                                            $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? args[args.indexOf($v{ flag }) + 1] : $v{ defaultValue };
                                         };
                                     case 'Array':
                                         expr = macro {
@@ -65,7 +75,7 @@ class Cli {
                                         switch(type.name) {
                                             case 'Int':
                                                 expr = macro {
-                                                    $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
+                                                    $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : $v{ defaultValue };
                                                 };
                                             case _:
                                         }
