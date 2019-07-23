@@ -39,26 +39,23 @@
 #endif
 
 HX_DEFINE_STACK_FRAME(_hx_pos_9aa8d6444802cb78_12_new,"src.App","new",0x5207d669,"src.App.new","App.hx",12,0xc43e94dd)
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_64_run,"src.App","run",0x520aed54,"src.App.run","App.hx",64,0xc43e94dd)
 HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_48_run,"src.App","run",0x520aed54,"src.App.run","App.hx",48,0xc43e94dd)
-static const ::String _hx_array_data_62186df7_5[] = {
-	HX_("diff",05,5c,69,42),HX_("--name-only",8e,ea,71,0d),
-};
 static const ::String _hx_array_data_62186df7_6[] = {
 	HX_("diff",05,5c,69,42),
 };
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_93_run,"src.App","run",0x520aed54,"src.App.run","App.hx",93,0xc43e94dd)
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_110_run,"src.App","run",0x520aed54,"src.App.run","App.hx",110,0xc43e94dd)
-static const ::String _hx_array_data_62186df7_9[] = {
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_107_run,"src.App","run",0x520aed54,"src.App.run","App.hx",107,0xc43e94dd)
+static const ::String _hx_array_data_62186df7_8[] = {
 	HX_("checkout",c6,b4,ff,ac),HX_("-",2d,00,00,00),
 };
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_125_error,"src.App","error",0x9e722611,"src.App.error","App.hx",125,0xc43e94dd)
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_131_getAllFiles,"src.App","getAllFiles",0x58171755,"src.App.getAllFiles","App.hx",131,0xc43e94dd)
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_156_getChangedFileCount,"src.App","getChangedFileCount",0xa6ce25de,"src.App.getChangedFileCount","App.hx",156,0xc43e94dd)
-static const ::String _hx_array_data_62186df7_14[] = {
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_122_error,"src.App","error",0x9e722611,"src.App.error","App.hx",122,0xc43e94dd)
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_128_getAllFiles,"src.App","getAllFiles",0x58171755,"src.App.getAllFiles","App.hx",128,0xc43e94dd)
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_153_getChangedFileCount,"src.App","getChangedFileCount",0xa6ce25de,"src.App.getChangedFileCount","App.hx",153,0xc43e94dd)
+static const ::String _hx_array_data_62186df7_13[] = {
 	HX_("diff",05,5c,69,42),HX_("--name-only",8e,ea,71,0d),
 };
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_166_searchAndReplaceInFile,"src.App","searchAndReplaceInFile",0x3c42f21d,"src.App.searchAndReplaceInFile","App.hx",166,0xc43e94dd)
-HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_193_searchAndReplaceInFiles,"src.App","searchAndReplaceInFiles",0x7e50e7b6,"src.App.searchAndReplaceInFiles","App.hx",193,0xc43e94dd)
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_163_searchAndReplaceInFile,"src.App","searchAndReplaceInFile",0x3c42f21d,"src.App.searchAndReplaceInFile","App.hx",163,0xc43e94dd)
+HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_190_searchAndReplaceInFiles,"src.App","searchAndReplaceInFiles",0x7e50e7b6,"src.App.searchAndReplaceInFiles","App.hx",190,0xc43e94dd)
 namespace src{
 
 void App_obj::__construct(){
@@ -150,6 +147,29 @@ bool App_obj::_hx_isInstanceOf(int inClassId) {
 }
 
 void App_obj::run(){
+            		HX_BEGIN_LOCAL_FUNC_S3(hx::LocalFunc,_hx_Closure_0, ::src::util::ChunkIterator,chunkIterator, ::src::App,_gthis,::Array< ::Dynamic>,getFullChunkUpdates) HXARGC(1)
+            		void _hx_run(::Array< ::String > filesToUpdate){
+            			HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_64_run)
+HXLINE(  65)			_gthis->searchAndReplaceInFiles(_gthis->search,_gthis->replace,filesToUpdate);
+HXLINE(  67)			int changedFileCount = _gthis->getChangedFileCount();
+HXLINE(  68)			if (hx::IsNotEq( changedFileCount,_gthis->chunk )) {
+HXLINE(  69)				 ::Dynamic chunk = (_gthis->chunk - changedFileCount);
+HXDLIN(  69)				 ::Dynamic nextChunk;
+HXDLIN(  69)				if (hx::IsNotNull( chunk )) {
+HXLINE(  69)					nextChunk = chunk;
+            				}
+            				else {
+HXLINE(  69)					nextChunk = chunkIterator->chunkSize;
+            				}
+HXDLIN(  69)				int start = chunkIterator->index;
+HXDLIN(  69)				 ::src::util::ChunkIterator chunkIterator1 = chunkIterator;
+HXDLIN(  69)				chunkIterator1->index = (chunkIterator1->index + nextChunk);
+HXDLIN(  69)				::Array< ::String > nextFilesToUpdate = chunkIterator->array->slice(start,chunkIterator1->index);
+HXLINE(  70)				getFullChunkUpdates->__get((int)0)(nextFilesToUpdate);
+            			}
+            		}
+            		HX_END_LOCAL_FUNC1((void))
+
             	HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_48_run)
 HXLINE(  47)		 ::src::App _gthis = hx::ObjectPtr<OBJ_>(this);
 HXLINE(  49)		if (hx::IsNull( this->directory )) {
@@ -162,100 +182,73 @@ HXLINE(  57)		::String files = this->directory;
 HXDLIN(  57)		::Array< ::String > files1 = this->getAllFiles(files,::Array_obj< ::String >::__new());
 HXLINE(  59)		int range = (int)0;
 HXLINE(  61)		 ::src::util::ChunkIterator chunkIterator =  ::src::util::ChunkIterator_obj::__alloc( HX_CTX ,files1,this->chunk);
-HXLINE(  62)		{
-HXLINE(  62)			 ::src::util::ChunkIterator _g = chunkIterator;
-HXDLIN(  62)			while((_g->index < _g->array->get_length())){
-HXLINE(  62)				 ::Dynamic nextChunk = _g->chunkSize;
-HXDLIN(  62)				int start = _g->index;
-HXDLIN(  62)				 ::src::util::ChunkIterator _g1 = _g;
-HXDLIN(  62)				_g1->index = (_g1->index + nextChunk);
-HXDLIN(  62)				::Array< ::String > filesChunk = _g->array->slice(start,_g1->index);
-HXLINE(  63)				bool _hx_tmp;
-HXDLIN(  63)				if (!(this->dryRun)) {
-HXLINE(  63)					_hx_tmp = !(this->createPull);
+HXLINE(  63)		::Array< ::Dynamic> getFullChunkUpdates = ::Array_obj< ::Dynamic>::__new(1)->init(0,null());
+HXDLIN(  63)		getFullChunkUpdates[(int)0] =  ::Dynamic(new _hx_Closure_0(chunkIterator,_gthis,getFullChunkUpdates));
+HXDLIN(  63)		 ::Dynamic getFullChunkUpdates1 = getFullChunkUpdates->__get((int)0);
+HXLINE(  75)		{
+HXLINE(  75)			 ::src::util::ChunkIterator _g = chunkIterator;
+HXDLIN(  75)			while((_g->index < _g->array->get_length())){
+HXLINE(  75)				 ::Dynamic nextChunk1 = _g->chunkSize;
+HXDLIN(  75)				int start1 = _g->index;
+HXDLIN(  75)				 ::src::util::ChunkIterator _g1 = _g;
+HXDLIN(  75)				_g1->index = (_g1->index + nextChunk1);
+HXDLIN(  75)				::Array< ::String > filesChunk = _g->array->slice(start1,_g1->index);
+HXLINE(  76)				bool _hx_tmp;
+HXDLIN(  76)				if (!(this->dryRun)) {
+HXLINE(  76)					_hx_tmp = !(this->createPull);
             				}
             				else {
-HXLINE(  63)					_hx_tmp = true;
+HXLINE(  76)					_hx_tmp = true;
             				}
-HXDLIN(  63)				if (_hx_tmp) {
-HXLINE(  64)					this->searchAndReplaceInFiles(this->search,this->replace,filesChunk);
+HXDLIN(  76)				if (_hx_tmp) {
+HXLINE(  77)					this->searchAndReplaceInFiles(this->search,this->replace,filesChunk);
             				}
-HXLINE(  67)				if (this->dryRun) {
-HXLINE(  68)					 ::sys::io::Process testProcess =  ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_5,2));
-HXLINE(  70)					if ((testProcess->_hx_stdout->readAll(null())->toString().length > (int)0)) {
-HXLINE(  71)						::Sys_obj::command(HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_6,1));
-HXLINE(  72)						::Sys_obj::command(HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(2)->init(0,HX_("checkout",c6,b4,ff,ac))->init(1,this->directory));
-HXLINE(  73)						testProcess->close();
-HXLINE(  74)						return;
-            					}
-HXLINE(  77)					testProcess->close();
+HXLINE(  80)				if (this->dryRun) {
+HXLINE(  81)					getFullChunkUpdates1(filesChunk);
+HXLINE(  83)					::Sys_obj::command(HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_6,1));
+HXLINE(  84)					::Sys_obj::command(HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(2)->init(0,HX_("checkout",c6,b4,ff,ac))->init(1,this->directory));
+HXLINE(  85)					return;
             				}
-HXLINE(  81)				bool _hx_tmp1;
-HXDLIN(  81)				if (this->createPull) {
-HXLINE(  81)					_hx_tmp1 = !(this->dryRun);
+HXLINE(  89)				bool _hx_tmp1;
+HXDLIN(  89)				if (this->createPull) {
+HXLINE(  89)					_hx_tmp1 = !(this->dryRun);
             				}
             				else {
-HXLINE(  81)					_hx_tmp1 = false;
+HXLINE(  89)					_hx_tmp1 = false;
             				}
-HXDLIN(  81)				if (_hx_tmp1) {
-HXLINE(  82)					int start1 = range;
-HXLINE(  83)					range = (range + this->chunk);
-HXDLIN(  83)					int end = range;
-HXLINE(  85)					if (hx::IsNull( this->branchname )) {
-HXLINE(  85)						this->error(HX_("'-b' branch flag is required when creating a pull request.",84,6d,a7,d3));
+HXDLIN(  89)				if (_hx_tmp1) {
+HXLINE(  90)					int start2 = range;
+HXLINE(  91)					range = (range + this->chunk);
+HXDLIN(  91)					int end = range;
+HXLINE(  93)					if (hx::IsNull( this->branchname )) {
+HXLINE(  93)						this->error(HX_("'-b' branch flag is required when creating a pull request.",84,6d,a7,d3));
             					}
-HXLINE(  88)					::String branchnameRange = ((((this->branchname + HX_("_batch_",04,ed,46,c4)) + start1) + HX_("_",5f,00,00,00)) + end);
-HXLINE(  90)					if (hx::IsEq(  ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(4)->init(0,HX_("checkout",c6,b4,ff,ac))->init(1,HX_("-b",95,27,00,00))->init(2,branchnameRange)->init(3,HX_("master",a2,80,20,bb)))->exitCode(null()),(int)0 )) {
-            						HX_BEGIN_LOCAL_FUNC_S3(hx::LocalFunc,_hx_Closure_0, ::src::util::ChunkIterator,chunkIterator, ::src::App,_gthis,::Array< ::Dynamic>,getFullChunkUpdates) HXARGC(1)
-            						void _hx_run(::Array< ::String > filesToUpdate){
-            							HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_93_run)
-HXLINE(  94)							_gthis->searchAndReplaceInFiles(_gthis->search,_gthis->replace,filesToUpdate);
-HXLINE(  96)							int changedFileCount = _gthis->getChangedFileCount();
-HXLINE(  97)							if (hx::IsNotEq( changedFileCount,_gthis->chunk )) {
-HXLINE(  98)								 ::Dynamic chunk = (_gthis->chunk - changedFileCount);
-HXDLIN(  98)								 ::Dynamic nextChunk1;
-HXDLIN(  98)								if (hx::IsNotNull( chunk )) {
-HXLINE(  98)									nextChunk1 = chunk;
-            								}
-            								else {
-HXLINE(  98)									nextChunk1 = chunkIterator->chunkSize;
-            								}
-HXDLIN(  98)								int start2 = chunkIterator->index;
-HXDLIN(  98)								 ::src::util::ChunkIterator chunkIterator1 = chunkIterator;
-HXDLIN(  98)								chunkIterator1->index = (chunkIterator1->index + nextChunk1);
-HXDLIN(  98)								::Array< ::String > nextFilesToUpdate = chunkIterator->array->slice(start2,chunkIterator1->index);
-HXLINE(  99)								getFullChunkUpdates->__get((int)0)(nextFilesToUpdate);
-            							}
-            						}
-            						HX_END_LOCAL_FUNC1((void))
-
+HXLINE(  96)					::String branchnameRange = ((((this->branchname + HX_("_batch_",04,ed,46,c4)) + start2) + HX_("_",5f,00,00,00)) + end);
+HXLINE(  98)					if (hx::IsEq(  ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(4)->init(0,HX_("checkout",c6,b4,ff,ac))->init(1,HX_("-b",95,27,00,00))->init(2,branchnameRange)->init(3,HX_("master",a2,80,20,bb)))->exitCode(null()),(int)0 )) {
             						HX_BEGIN_LOCAL_FUNC_S0(hx::LocalFunc,_hx_Closure_1) HXARGC(1)
             						void _hx_run( ::sys::io::Process process){
-            							HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_110_run)
-HXLINE( 111)							::Sys_obj::print(process->_hx_stdout->readAll(null())->toString());
-HXLINE( 112)							process->exitCode(null());
-HXLINE( 113)							process->close();
+            							HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_107_run)
+HXLINE( 108)							::Sys_obj::print(process->_hx_stdout->readAll(null())->toString());
+HXLINE( 109)							process->exitCode(null());
+HXLINE( 110)							process->close();
             						}
             						HX_END_LOCAL_FUNC1((void))
 
-HXLINE(  92)						::Array< ::Dynamic> getFullChunkUpdates = ::Array_obj< ::Dynamic>::__new(1)->init(0,null());
-HXDLIN(  92)						getFullChunkUpdates[(int)0] =  ::Dynamic(new _hx_Closure_0(chunkIterator,_gthis,getFullChunkUpdates));
-HXDLIN(  92)						 ::Dynamic getFullChunkUpdates1 = getFullChunkUpdates->__get((int)0);
-HXLINE( 103)						getFullChunkUpdates1(filesChunk);
-HXLINE( 105)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(3)->init(0,HX_("commit",f7,6f,2e,c7))->init(1,HX_("-am",59,7a,22,00))->init(2,(((HX_("Adding update for batch ",b5,75,7f,e2) + start1) + HX_(" - ",73,6f,18,00)) + end)))->exitCode(null());
-HXLINE( 106)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(4)->init(0,HX_("push",da,11,61,4a))->init(1,HX_("-u",a8,27,00,00))->init(2,HX_("origin",e6,19,01,4b))->init(3,branchnameRange))->exitCode(null());
-HXLINE( 108)						::String message;
-HXDLIN( 108)						if (hx::IsNotNull( this->pullRequestMessage )) {
-HXLINE( 108)							message = this->pullRequestMessage;
+HXLINE( 100)						getFullChunkUpdates1(filesChunk);
+HXLINE( 102)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(3)->init(0,HX_("commit",f7,6f,2e,c7))->init(1,HX_("-am",59,7a,22,00))->init(2,(((HX_("Adding update for batch ",b5,75,7f,e2) + start2) + HX_(" - ",73,6f,18,00)) + end)))->exitCode(null());
+HXLINE( 103)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(4)->init(0,HX_("push",da,11,61,4a))->init(1,HX_("-u",a8,27,00,00))->init(2,HX_("origin",e6,19,01,4b))->init(3,branchnameRange))->exitCode(null());
+HXLINE( 105)						::String message;
+HXDLIN( 105)						if (hx::IsNotNull( this->pullRequestMessage )) {
+HXLINE( 105)							message = this->pullRequestMessage;
             						}
             						else {
-HXLINE( 108)							message = HX_("",00,00,00,00);
+HXLINE( 105)							message = HX_("",00,00,00,00);
             						}
-HXLINE( 110)						::src::util::Hub_obj::pullRequest(::Array_obj< ::String >::__new(4)->init(0,HX_("-m",a0,27,00,00))->init(1,(((HX_("Update batch ",3d,40,8c,ce) + start1) + HX_(" - ",73,6f,18,00)) + end))->init(2,HX_("-m",a0,27,00,00))->init(3,message), ::Dynamic(new _hx_Closure_1()));
-HXLINE( 116)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_9,2))->exitCode(null());
+HXLINE( 107)						::src::util::Hub_obj::pullRequest(::Array_obj< ::String >::__new(4)->init(0,HX_("-m",a0,27,00,00))->init(1,(((HX_("Update batch ",3d,40,8c,ce) + start2) + HX_(" - ",73,6f,18,00)) + end))->init(2,HX_("-m",a0,27,00,00))->init(3,message), ::Dynamic(new _hx_Closure_1()));
+HXLINE( 113)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_8,2))->exitCode(null());
             					}
             					else {
-HXLINE( 118)						this->error(((HX_("Could not checkout branch '",f7,8e,c5,dc) + branchnameRange) + HX_("'.",27,22,00,00)));
+HXLINE( 115)						this->error(((HX_("Could not checkout branch '",f7,8e,c5,dc) + branchnameRange) + HX_("'.",27,22,00,00)));
             					}
             				}
             			}
@@ -267,55 +260,55 @@ HX_DEFINE_DYNAMIC_FUNC0(App_obj,run,(void))
 
 void App_obj::error(::String __o_msg){
 ::String msg = __o_msg.Default(HX_HCSTRING("","\x00","\x00","\x00","\x00"));
-            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_125_error)
-HXLINE( 126)		::Sys_obj::println(msg);
-HXLINE( 127)		::Sys_obj::exit((int)1);
+            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_122_error)
+HXLINE( 123)		::Sys_obj::println(msg);
+HXLINE( 124)		::Sys_obj::exit((int)1);
             	}
 
 
 HX_DEFINE_DYNAMIC_FUNC1(App_obj,error,(void))
 
 ::Array< ::String > App_obj::getAllFiles(::String directory,::Array< ::String > files){
-            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_131_getAllFiles)
-HXLINE( 132)		if (::sys::FileSystem_obj::exists(directory)) {
-HXLINE( 133)			if (::sys::FileSystem_obj::isDirectory(directory)) {
-HXLINE( 134)				int _g = (int)0;
-HXDLIN( 134)				::Array< ::String > _g1 = ::sys::FileSystem_obj::readDirectory(directory);
-HXDLIN( 134)				while((_g < _g1->length)){
-HXLINE( 134)					::String file = _g1->__get(_g);
-HXDLIN( 134)					_g = (_g + (int)1);
-HXLINE( 135)					::String filePath = ::haxe::io::Path_obj::join(::Array_obj< ::String >::__new(2)->init(0,directory)->init(1,file));
-HXLINE( 137)					if (!(::sys::FileSystem_obj::isDirectory(filePath))) {
-HXLINE( 138)						::String _hx_tmp = ::haxe::io::Path_obj::extension(filePath);
-HXDLIN( 138)						if ((_hx_tmp == this->fileExtension)) {
-HXLINE( 139)							files->push(filePath);
+            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_128_getAllFiles)
+HXLINE( 129)		if (::sys::FileSystem_obj::exists(directory)) {
+HXLINE( 130)			if (::sys::FileSystem_obj::isDirectory(directory)) {
+HXLINE( 131)				int _g = (int)0;
+HXDLIN( 131)				::Array< ::String > _g1 = ::sys::FileSystem_obj::readDirectory(directory);
+HXDLIN( 131)				while((_g < _g1->length)){
+HXLINE( 131)					::String file = _g1->__get(_g);
+HXDLIN( 131)					_g = (_g + (int)1);
+HXLINE( 132)					::String filePath = ::haxe::io::Path_obj::join(::Array_obj< ::String >::__new(2)->init(0,directory)->init(1,file));
+HXLINE( 134)					if (!(::sys::FileSystem_obj::isDirectory(filePath))) {
+HXLINE( 135)						::String _hx_tmp = ::haxe::io::Path_obj::extension(filePath);
+HXDLIN( 135)						if ((_hx_tmp == this->fileExtension)) {
+HXLINE( 136)							files->push(filePath);
             						}
             					}
             					else {
-HXLINE( 142)						this->getAllFiles(::haxe::io::Path_obj::addTrailingSlash(filePath),files);
+HXLINE( 139)						this->getAllFiles(::haxe::io::Path_obj::addTrailingSlash(filePath),files);
             					}
             				}
             			}
             			else {
-HXLINE( 146)				files->push(directory);
+HXLINE( 143)				files->push(directory);
             			}
             		}
             		else {
-HXLINE( 149)			this->error(((HX_("Directory '",94,db,6a,45) + directory) + HX_("' does not exist",9c,d9,8e,aa)));
+HXLINE( 146)			this->error(((HX_("Directory '",94,db,6a,45) + directory) + HX_("' does not exist",9c,d9,8e,aa)));
             		}
-HXLINE( 152)		return files;
+HXLINE( 149)		return files;
             	}
 
 
 HX_DEFINE_DYNAMIC_FUNC2(App_obj,getAllFiles,return )
 
 int App_obj::getChangedFileCount(){
-            	HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_156_getChangedFileCount)
-HXLINE( 157)		 ::sys::io::Process diffProcess =  ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_14,2));
-HXLINE( 158)		diffProcess->exitCode(null());
-HXLINE( 159)		int filesCount = diffProcess->_hx_stdout->readAll(null())->toString().split(HX_("\n",0a,00,00,00))->length;
-HXLINE( 160)		diffProcess->close();
-HXLINE( 162)		return filesCount;
+            	HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_153_getChangedFileCount)
+HXLINE( 154)		 ::sys::io::Process diffProcess =  ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_13,2));
+HXLINE( 155)		diffProcess->exitCode(null());
+HXLINE( 156)		int filesCount = diffProcess->_hx_stdout->readAll(null())->toString().split(HX_("\n",0a,00,00,00))->length;
+HXLINE( 157)		diffProcess->close();
+HXLINE( 159)		return filesCount;
             	}
 
 
@@ -324,33 +317,33 @@ HX_DEFINE_DYNAMIC_FUNC0(App_obj,getChangedFileCount,return )
 void App_obj::searchAndReplaceInFile(::String __o_search,::String __o_replace,::String filePath){
 ::String search = __o_search.Default(HX_HCSTRING("","\x00","\x00","\x00","\x00"));
 ::String replace = __o_replace.Default(HX_HCSTRING("","\x00","\x00","\x00","\x00"));
-            	HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_166_searchAndReplaceInFile)
-HXLINE( 167)		if (!(::sys::FileSystem_obj::exists(filePath))) {
-HXLINE( 168)			this->error(((HX_("File: '",a5,ad,8c,cc) + filePath) + HX_("' does not exist",9c,d9,8e,aa)));
+            	HX_GC_STACKFRAME(&_hx_pos_9aa8d6444802cb78_163_searchAndReplaceInFile)
+HXLINE( 164)		if (!(::sys::FileSystem_obj::exists(filePath))) {
+HXLINE( 165)			this->error(((HX_("File: '",a5,ad,8c,cc) + filePath) + HX_("' does not exist",9c,d9,8e,aa)));
             		}
-HXLINE( 172)		bool _hx_tmp;
-HXDLIN( 172)		if ((search.length != (int)0)) {
-HXLINE( 172)			_hx_tmp = (replace.length == (int)0);
+HXLINE( 169)		bool _hx_tmp;
+HXDLIN( 169)		if ((search.length != (int)0)) {
+HXLINE( 169)			_hx_tmp = (replace.length == (int)0);
             		}
             		else {
-HXLINE( 172)			_hx_tmp = true;
+HXLINE( 169)			_hx_tmp = true;
             		}
-HXLINE( 171)		if (_hx_tmp) {
-HXLINE( 175)			this->error(HX_("Search and Replace are required",b8,23,66,c5));
+HXLINE( 168)		if (_hx_tmp) {
+HXLINE( 172)			this->error(HX_("Search and Replace are required",b8,23,66,c5));
             		}
-HXLINE( 178)		::String fileContent = ::sys::io::File_obj::getContent(filePath);
-HXLINE( 179)		 ::EReg searchRegex =  ::EReg_obj::__alloc( HX_CTX ,search,HX_("g",67,00,00,00));
-HXLINE( 180)		 ::EReg newLineRegex =  ::EReg_obj::__alloc( HX_CTX ,HX_("\\\\n",ee,1f,46,00),HX_("g",67,00,00,00));
-HXLINE( 182)		::String updatedContent = searchRegex->replace(fileContent,newLineRegex->replace(replace,HX_("\n",0a,00,00,00)));
-HXLINE( 184)		try {
+HXLINE( 175)		::String fileContent = ::sys::io::File_obj::getContent(filePath);
+HXLINE( 176)		 ::EReg searchRegex =  ::EReg_obj::__alloc( HX_CTX ,search,HX_("g",67,00,00,00));
+HXLINE( 177)		 ::EReg newLineRegex =  ::EReg_obj::__alloc( HX_CTX ,HX_("\\\\n",ee,1f,46,00),HX_("g",67,00,00,00));
+HXLINE( 179)		::String updatedContent = searchRegex->replace(fileContent,newLineRegex->replace(replace,HX_("\n",0a,00,00,00)));
+HXLINE( 181)		try {
             			HX_STACK_CATCHABLE(::String, 0);
-HXLINE( 185)			::sys::io::File_obj::saveContent(filePath,updatedContent);
+HXLINE( 182)			::sys::io::File_obj::saveContent(filePath,updatedContent);
             		}
             		catch( ::Dynamic _hx_e){
             			if (_hx_e.IsClass< ::String >() ){
             				HX_STACK_BEGIN_CATCH
             				::String errorMessage = _hx_e;
-HXLINE( 187)				this->error(errorMessage);
+HXLINE( 184)				this->error(errorMessage);
             			}
             			else {
             				HX_STACK_DO_THROW(_hx_e);
@@ -362,18 +355,18 @@ HXLINE( 187)				this->error(errorMessage);
 HX_DEFINE_DYNAMIC_FUNC3(App_obj,searchAndReplaceInFile,(void))
 
 void App_obj::searchAndReplaceInFiles(::Array< ::String > searches,::Array< ::String > replaces,::Array< ::String > files){
-            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_193_searchAndReplaceInFiles)
-HXDLIN( 193)		int _g = (int)0;
-HXDLIN( 193)		while((_g < files->length)){
-HXDLIN( 193)			::String file = files->__get(_g);
-HXDLIN( 193)			_g = (_g + (int)1);
-HXLINE( 194)			{
-HXLINE( 194)				int _g2 = (int)0;
-HXDLIN( 194)				int _g1 = searches->length;
-HXDLIN( 194)				while((_g2 < _g1)){
-HXLINE( 194)					_g2 = (_g2 + (int)1);
-HXDLIN( 194)					int i = (_g2 - (int)1);
-HXLINE( 195)					this->searchAndReplaceInFile(searches->__get(i),replaces->__get(i),file);
+            	HX_STACKFRAME(&_hx_pos_9aa8d6444802cb78_190_searchAndReplaceInFiles)
+HXDLIN( 190)		int _g = (int)0;
+HXDLIN( 190)		while((_g < files->length)){
+HXDLIN( 190)			::String file = files->__get(_g);
+HXDLIN( 190)			_g = (_g + (int)1);
+HXLINE( 191)			{
+HXLINE( 191)				int _g2 = (int)0;
+HXDLIN( 191)				int _g1 = searches->length;
+HXDLIN( 191)				while((_g2 < _g1)){
+HXLINE( 191)					_g2 = (_g2 + (int)1);
+HXDLIN( 191)					int i = (_g2 - (int)1);
+HXLINE( 192)					this->searchAndReplaceInFile(searches->__get(i),replaces->__get(i),file);
             				}
             			}
             		}
