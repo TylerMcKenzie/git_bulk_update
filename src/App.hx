@@ -65,6 +65,7 @@ class App extends Cli
             this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
 
             var changedFileCount = this.getChangedFileCount();
+            trace(changedFileCount);
             if (changedFileCount != this.chunk) {
                 var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
                 getFullChunkUpdates(nextFilesToUpdate);

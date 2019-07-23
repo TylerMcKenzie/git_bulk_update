@@ -7,6 +7,9 @@
 #ifndef INCLUDED_src_util_Hub
 #include <src/util/Hub.h>
 #endif
+#ifndef INCLUDED_haxe_Log
+#include <haxe/Log.h>
+#endif
 #ifndef INCLUDED_StringTools
 #include <StringTools.h>
 #endif
@@ -79,6 +82,7 @@ __files__boot();
 hx::RegisterResources( hx::GetResources() );
 ::haxe::io::Error_obj::__register();
 ::src::util::Hub_obj::__register();
+::haxe::Log_obj::__register();
 ::StringTools_obj::__register();
 ::sys::io::Process_obj::__register();
 ::sys::io::_Process::Stdout_obj::__register();
@@ -101,6 +105,7 @@ hx::RegisterResources( hx::GetResources() );
 ::Main_obj::__register();
 ::EReg_obj::__register();
 ::haxe::io::Error_obj::__boot();
+::haxe::Log_obj::__boot();
 ::StringTools_obj::__boot();
 ::src::util::Hub_obj::__boot();
 }
