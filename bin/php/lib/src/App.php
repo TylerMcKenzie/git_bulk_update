@@ -9,8 +9,12 @@ use \haxe\io\Path;
 use \sys\io\Process;
 use \php\Boot;
 use \php\_Boot\HxException;
+use \haxe\Log;
+use \php\_Boot\HxString;
+use \src\util\ChunkIterator;
 use \src\util\Hub;
 use \sys\io\File;
+use \php\_Boot\HxAnon;
 use \sys\FileSystem;
 
 class App extends Cli {
@@ -130,14 +134,14 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function error ($msg = "") {
-		#src/App.hx:114: lines 114-117
+		#src/App.hx:123: lines 123-126
 		if ($msg === null) {
-			#src/App.hx:114: lines 114-117
+			#src/App.hx:123: lines 123-126
 			$msg = "";
 		}
-		#src/App.hx:115: characters 8-24
+		#src/App.hx:124: characters 8-24
 		\Sys::println($msg);
-		#src/App.hx:116: characters 8-19
+		#src/App.hx:125: characters 8-19
 		exit(1);
 	}
 
@@ -149,51 +153,71 @@ class App extends Cli {
 	 * @return \Array_hx
 	 */
 	public function getAllFiles ($directory, $files) {
-		#src/App.hx:121: lines 121-139
+		#src/App.hx:130: lines 130-148
 		if (file_exists($directory)) {
-			#src/App.hx:122: lines 122-136
+			#src/App.hx:131: lines 131-145
 			if (is_dir($directory)) {
-				#src/App.hx:123: lines 123-133
+				#src/App.hx:132: lines 132-142
 				$_g = 0;
-				#src/App.hx:123: lines 123-133
+				#src/App.hx:132: lines 132-142
 				$_g1 = FileSystem::readDirectory($directory);
-				#src/App.hx:123: lines 123-133
+				#src/App.hx:132: lines 132-142
 				while ($_g < $_g1->length) {
-					#src/App.hx:123: characters 21-25
+					#src/App.hx:132: characters 21-25
 					$file = ($_g1->arr[$_g] ?? null);
-					#src/App.hx:123: lines 123-133
+					#src/App.hx:132: lines 132-142
 					$_g = $_g + 1;
-					#src/App.hx:124: characters 20-64
+					#src/App.hx:133: characters 20-64
 					$filePath = Path::join(\Array_hx::wrap([
 						$directory,
 						$file,
 					]));
-					#src/App.hx:126: lines 126-132
+					#src/App.hx:135: lines 135-141
 					if (!is_dir($filePath)) {
-						#src/App.hx:127: lines 127-129
+						#src/App.hx:136: lines 136-138
 						if (Path::extension($filePath) === $this->fileExtension) {
-							#src/App.hx:128: characters 28-48
+							#src/App.hx:137: characters 28-48
 							$files->arr[$files->length] = $filePath;
-							#src/App.hx:128: characters 28-48
+							#src/App.hx:137: characters 28-48
 							++$files->length;
 						}
 					} else {
-						#src/App.hx:131: characters 24-80
+						#src/App.hx:140: characters 24-80
 						$this->getAllFiles(Path::addTrailingSlash($filePath), $files);
 					}
 				}
 			} else {
-				#src/App.hx:135: characters 16-37
+				#src/App.hx:144: characters 16-37
 				$files->arr[$files->length] = $directory;
-				#src/App.hx:135: characters 16-37
+				#src/App.hx:144: characters 16-37
 				++$files->length;
 			}
 		} else {
-			#src/App.hx:138: characters 11-64
+			#src/App.hx:147: characters 11-64
 			$this->error("Directory '" . ($directory??'null') . "' does not exist");
 		}
-		#src/App.hx:141: characters 8-20
+		#src/App.hx:150: characters 8-20
 		return $files;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getChangedFileCount () {
+		#src/App.hx:155: characters 8-70
+		$diffProcess = new Process("git", \Array_hx::wrap([
+			"diff",
+			"--name-only",
+		]));
+		#src/App.hx:156: characters 8-30
+		$diffProcess->exitCode();
+		#src/App.hx:157: characters 8-84
+		$filesCount = HxString::split($diffProcess->stdout->readAll()->toString(), "\x0A")->length;
+		#src/App.hx:158: characters 8-27
+		$diffProcess->close();
+		#src/App.hx:160: characters 8-25
+		return $filesCount;
 	}
 
 
@@ -201,6 +225,8 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function run () {
+		#src/App.hx:47: lines 47-120
+		$_gthis = $this;
 		#src/App.hx:49: lines 49-51
 		if ($this->directory === null) {
 			#src/App.hx:50: characters 12-52
@@ -215,115 +241,136 @@ class App extends Cli {
 		$files = $this->getAllFiles($this->directory, new \Array_hx());
 		#src/App.hx:59: characters 8-22
 		$range = 0;
-		#src/App.hx:62: lines 62-110
-		$_g_index = null;
-		#src/App.hx:62: lines 62-110
-		$_g_chunkSize = null;
-		#src/App.hx:62: lines 62-110
-		$_g_array = null;
-		#src/App.hx:62: characters 27-71
-		$_g_index = 0;
-		#src/App.hx:62: characters 27-71
-		$_g_array = $files;
-		#src/App.hx:62: characters 27-71
-		$_g_chunkSize = $this->chunk;
-		#src/App.hx:62: lines 62-110
-		while ($_g_index < $_g_array->length) {
-			#src/App.hx:62: lines 62-110
-			$_g_index1 = $_g_index;
-			#src/App.hx:62: lines 62-110
-			$_g_index = $_g_index + $_g_chunkSize;
-			#src/App.hx:62: lines 62-110
-			$filesChunk = $_g_array->slice($_g_index1, $_g_index);
-			#src/App.hx:63: lines 63-65
+		#src/App.hx:61: characters 8-73
+		$chunkIterator = new ChunkIterator($files, $this->chunk);
+		#src/App.hx:63: lines 63-73
+		$getFullChunkUpdates = null;
+		#src/App.hx:63: lines 63-73
+		$getFullChunkUpdates = function ($filesToUpdate)  use (&$chunkIterator, &$_gthis, &$getFullChunkUpdates) {
+			#src/App.hx:65: characters 12-82
+			$_gthis->searchAndReplaceInFiles($_gthis->search, $_gthis->replace, $filesToUpdate);
+			#src/App.hx:67: characters 12-62
+			$changedFileCount = $_gthis->getChangedFileCount();
+			#src/App.hx:68: characters 12-17
+			(Log::$trace)($changedFileCount, new HxAnon([
+				"fileName" => "App.hx",
+				"lineNumber" => 68,
+				"className" => "src.App",
+				"methodName" => "run",
+			]));
+			#src/App.hx:69: lines 69-72
+			if ($changedFileCount !== $_gthis->chunk) {
+				#src/App.hx:70: characters 40-97
+				$chunk = $_gthis->chunk - $changedFileCount;
+				#src/App.hx:70: characters 40-97
+				$nextChunk = ($chunk !== null ? $chunk : $chunkIterator->chunkSize);
+				#src/App.hx:70: characters 40-97
+				$start = $chunkIterator->index;
+				#src/App.hx:70: characters 40-53
+				$chunkIterator1 = $chunkIterator;
+				#src/App.hx:70: characters 40-97
+				$chunkIterator1->index = $chunkIterator1->index + $nextChunk;
+				#src/App.hx:70: characters 16-98
+				$nextFilesToUpdate = $chunkIterator->array->slice($start, $chunkIterator1->index);
+				#src/App.hx:71: characters 16-54
+				$getFullChunkUpdates($nextFilesToUpdate);
+			}
+		};
+		#src/App.hx:63: lines 63-73
+		$getFullChunkUpdates1 = $getFullChunkUpdates;
+		#src/App.hx:76: lines 76-119
+		$_g = $chunkIterator;
+		#src/App.hx:76: lines 76-119
+		while ($_g->index < $_g->array->length) {
+			#src/App.hx:76: lines 76-119
+			$nextChunk1 = $_g->chunkSize;
+			#src/App.hx:76: lines 76-119
+			$start1 = $_g->index;
+			#src/App.hx:76: lines 76-119
+			$_g1 = $_g;
+			#src/App.hx:76: lines 76-119
+			$_g1->index = $_g1->index + $nextChunk1;
+			#src/App.hx:76: lines 76-119
+			$filesChunk = $_g->array->slice($start1, $_g1->index);
+			#src/App.hx:77: lines 77-79
 			if ($this->dryRun || !$this->createPull) {
-				#src/App.hx:64: characters 16-83
+				#src/App.hx:78: characters 16-83
 				$this->searchAndReplaceInFiles($this->search, $this->replace, $filesChunk);
 			}
-			#src/App.hx:67: lines 67-78
+			#src/App.hx:81: lines 81-87
 			if ($this->dryRun) {
-				#src/App.hx:68: characters 16-78
-				$testProcess = new Process("git", \Array_hx::wrap([
-					"diff",
-					"--name-only",
+				#src/App.hx:82: characters 16-47
+				$getFullChunkUpdates1($filesChunk);
+				#src/App.hx:84: characters 16-44
+				\Sys::command("git", \Array_hx::wrap(["diff"]));
+				#src/App.hx:85: characters 16-64
+				\Sys::command("git", \Array_hx::wrap([
+					"checkout",
+					$this->directory,
 				]));
-				#src/App.hx:70: lines 70-75
-				if (strlen($testProcess->stdout->readAll()->toString()) > 0) {
-					#src/App.hx:71: characters 20-48
-					\Sys::command("git", \Array_hx::wrap(["diff"]));
-					#src/App.hx:72: characters 20-68
-					\Sys::command("git", \Array_hx::wrap([
-						"checkout",
-						$this->directory,
-					]));
-					#src/App.hx:73: characters 20-39
-					$testProcess->close();
-					#src/App.hx:74: characters 20-26
-					return;
-				}
-				#src/App.hx:77: characters 16-35
-				$testProcess->close();
+				#src/App.hx:86: characters 16-22
+				return;
 			}
-			#src/App.hx:81: lines 81-109
+			#src/App.hx:90: lines 90-118
 			if ($this->createPull && !$this->dryRun) {
-				#src/App.hx:82: characters 16-34
-				$start = $range;
-				#src/App.hx:83: characters 26-45
+				#src/App.hx:91: characters 16-34
+				$start2 = $range;
+				#src/App.hx:92: characters 26-45
 				$range = $range + $this->chunk;
-				#src/App.hx:83: characters 16-46
+				#src/App.hx:92: characters 16-46
 				$end = $range;
-				#src/App.hx:85: characters 16-117
+				#src/App.hx:94: characters 16-117
 				if ($this->branchname === null) {
-					#src/App.hx:85: characters 45-117
+					#src/App.hx:94: characters 45-117
 					$this->error("'-b' branch flag is required when creating a pull request.");
 				}
-				#src/App.hx:88: characters 16-86
-				$branchnameRange = ($this->branchname??'null') . "_batch_" . ($start??'null') . "_" . ($end??'null');
-				#src/App.hx:90: lines 90-108
+				#src/App.hx:97: characters 16-86
+				$branchnameRange = ($this->branchname??'null') . "_batch_" . ($start2??'null') . "_" . ($end??'null');
+				#src/App.hx:99: lines 99-117
 				if ((new Process("git", \Array_hx::wrap([
 					"checkout",
 					"-b",
 					$branchnameRange,
 					"master",
 				])))->exitCode() === 0) {
-					#src/App.hx:92: characters 20-87
-					$this->searchAndReplaceInFiles($this->search, $this->replace, $filesChunk);
-					#src/App.hx:94: characters 20-109
+					#src/App.hx:101: characters 20-51
+					$getFullChunkUpdates1($filesChunk);
+					#src/App.hx:103: characters 20-109
 					(new Process("git", \Array_hx::wrap([
 						"commit",
 						"-am",
-						"Adding update for batch " . ($start??'null') . " - " . ($end??'null'),
+						"Adding update for batch " . ($start2??'null') . " - " . ($end??'null'),
 					])))->exitCode();
-					#src/App.hx:95: characters 20-92
+					#src/App.hx:104: characters 20-92
 					(new Process("git", \Array_hx::wrap([
 						"push",
 						"-u",
 						"origin",
 						$branchnameRange,
 					])))->exitCode();
-					#src/App.hx:97: characters 20-99
+					#src/App.hx:106: characters 20-99
 					$message = ($this->pullRequestMessage !== null ? $this->pullRequestMessage : "");
-					#src/App.hx:99: lines 99-103
+					#src/App.hx:108: lines 108-112
 					Hub::pullRequest(\Array_hx::wrap([
 						"-m",
-						"Update batch " . ($start??'null') . " - " . ($end??'null'),
+						"Update batch " . ($start2??'null') . " - " . ($end??'null'),
 						"-m",
 						$message,
 					]), function ($process) {
-						#src/App.hx:100: characters 24-70
+						#src/App.hx:109: characters 24-70
 						echo(\Std::string($process->stdout->readAll()->toString()));
-						#src/App.hx:101: characters 24-42
+						#src/App.hx:110: characters 24-42
 						$process->exitCode();
-						#src/App.hx:102: characters 24-39
+						#src/App.hx:111: characters 24-39
 						$process->close();
 					});
-					#src/App.hx:105: characters 20-68
+					#src/App.hx:114: characters 20-68
 					(new Process("git", \Array_hx::wrap([
 						"checkout",
 						"-",
 					])))->exitCode();
 				} else {
-					#src/App.hx:107: characters 20-81
+					#src/App.hx:116: characters 20-81
 					$this->error("Could not checkout branch '" . ($branchnameRange??'null') . "'.");
 				}
 			}
@@ -340,43 +387,43 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function searchAndReplaceInFile ($search = "", $replace = "", $filePath) {
-		#src/App.hx:145: lines 145-168
+		#src/App.hx:164: lines 164-187
 		if ($search === null) {
-			#src/App.hx:145: lines 145-168
+			#src/App.hx:164: lines 164-187
 			$search = "";
 		}
-		#src/App.hx:145: lines 145-168
+		#src/App.hx:164: lines 164-187
 		if ($replace === null) {
-			#src/App.hx:145: lines 145-168
+			#src/App.hx:164: lines 164-187
 			$replace = "";
 		}
-		#src/App.hx:146: lines 146-148
+		#src/App.hx:165: lines 165-167
 		if (!file_exists($filePath)) {
-			#src/App.hx:147: characters 12-60
+			#src/App.hx:166: characters 12-60
 			$this->error("File: '" . ($filePath??'null') . "' does not exist");
 		}
-		#src/App.hx:150: lines 150-155
+		#src/App.hx:169: lines 169-174
 		if ((strlen($search) === 0) || (strlen($replace) === 0)) {
-			#src/App.hx:154: characters 12-57
+			#src/App.hx:173: characters 12-57
 			$this->error("Search and Replace are required");
 		}
-		#src/App.hx:157: characters 8-52
+		#src/App.hx:176: characters 8-52
 		$fileContent = File::getContent($filePath);
-		#src/App.hx:158: characters 8-48
+		#src/App.hx:177: characters 8-48
 		$searchRegex = new \EReg($search, "g");
-		#src/App.hx:159: characters 8-50
+		#src/App.hx:178: characters 8-50
 		$newLineRegex = new \EReg("\\\\n", "g");
-		#src/App.hx:161: characters 8-99
+		#src/App.hx:180: characters 8-99
 		$updatedContent = $searchRegex->replace($fileContent, $newLineRegex->replace($replace, "\x0A"));
-		#src/App.hx:163: lines 163-167
+		#src/App.hx:182: lines 182-186
 		try {
-			#src/App.hx:164: characters 12-54
+			#src/App.hx:183: characters 12-54
 			File::saveContent($filePath, $updatedContent);
 		} catch (\Throwable $__hx__caught_e) {
 			$__hx__real_e = ($__hx__caught_e instanceof HxException ? $__hx__caught_e->e : $__hx__caught_e);
 			if (is_string($__hx__real_e)) {
 				$errorMessage = $__hx__real_e;
-				#src/App.hx:166: characters 12-36
+				#src/App.hx:185: characters 12-36
 				$this->error($errorMessage);
 			} else  throw $__hx__caught_e;
 		}
@@ -391,25 +438,25 @@ class App extends Cli {
 	 * @return void
 	 */
 	public function searchAndReplaceInFiles ($searches, $replaces, $files) {
-		#src/App.hx:172: lines 172-176
+		#src/App.hx:191: lines 191-195
 		$_g = 0;
-		#src/App.hx:172: lines 172-176
+		#src/App.hx:191: lines 191-195
 		while ($_g < $files->length) {
-			#src/App.hx:172: characters 13-17
+			#src/App.hx:191: characters 13-17
 			$file = ($files->arr[$_g] ?? null);
-			#src/App.hx:172: lines 172-176
+			#src/App.hx:191: lines 191-195
 			$_g = $_g + 1;
-			#src/App.hx:173: lines 173-175
+			#src/App.hx:192: lines 192-194
 			$_g2 = 0;
-			#src/App.hx:173: lines 173-175
+			#src/App.hx:192: lines 192-194
 			$_g1 = $searches->length;
-			#src/App.hx:173: lines 173-175
+			#src/App.hx:192: lines 192-194
 			while ($_g2 < $_g1) {
-				#src/App.hx:173: lines 173-175
+				#src/App.hx:192: lines 192-194
 				$_g2 = $_g2 + 1;
-				#src/App.hx:173: characters 17-18
+				#src/App.hx:192: characters 17-18
 				$i = $_g2 - 1;
-				#src/App.hx:174: characters 16-75
+				#src/App.hx:193: characters 16-75
 				$this->searchAndReplaceInFile(($searches->arr[$i] ?? null), ($replaces->arr[$i] ?? null), $file);
 			}
 

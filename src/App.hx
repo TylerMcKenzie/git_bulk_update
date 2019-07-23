@@ -32,8 +32,9 @@ class App extends Cli
     @:flag("--pull-message")
     public var pullRequestMessage: String;
 
+    @:default(50)
     @:flag("--chunk")
-    public var chunk: Null<Int> = 50;
+    public var chunk: Null<Int>;
 
     @:flag("--dry")
     public var dryRun: Bool;
@@ -57,24 +58,30 @@ class App extends Cli
         var files = this.getAllFiles(this.directory, new Array<String>());
 
         var range = 0;
-        // var directoryName = Path.directory(this.directory).split("/").pop();
+        var chunkIterator = new ChunkIterator<String>(files, this.chunk);
 
-        for (filesChunk in new ChunkIterator<String>(files, this.chunk)) {
-            if (this.dryRun || !this.createPull) {
+        function getFullChunkUpdates(filesToUpdate)
+        {
+            this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
+
+            var changedFileCount = this.getChangedFileCount();
+            if (changedFileCount != this.chunk) {
+                var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
+                getFullChunkUpdates(nextFilesToUpdate);
+            }
+        }
+
+        for (filesChunk in chunkIterator) {
+            if (this.dryRun && !this.createPull) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
 
             if (this.dryRun) {
-                var testProcess = new Process("git", ["diff", "--name-only"]);
+                getFullChunkUpdates(filesChunk);
 
-                if (testProcess.stdout.readAll().toString().length > 0) {
-                    Sys.command("git", ["diff"]);
-                    Sys.command("git", ["checkout", this.directory]);
-                    testProcess.close();
-                    return;
-                }
-
-                testProcess.close();
+                Sys.command("git", ["diff"]);
+                Sys.command("git", ["checkout", this.directory]);
+                return;
             }
             
             // Commands for creating, adding, and pushing the batched branches
@@ -84,12 +91,13 @@ class App extends Cli
                 
                 if (this.branchname == null) this.error("'-b' branch flag is required when creating a pull request.");
 
+                // var directoryName = Path.directory(this.directory).split("/").pop();
                 // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
                 var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
                 
                 if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
                     // Run updates now that we are on a new branch
-                    this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
+                    getFullChunkUpdates(filesChunk);
 
                     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
                     new Process("git", ["push", "-u", "origin", branchnameRange]).exitCode();
@@ -124,7 +132,11 @@ class App extends Cli
                     var filePath = Path.join([directory, file]);
 
                     if (!FileSystem.isDirectory(filePath)) {
-                        if (Path.extension(filePath) == this.fileExtension) {
+                        if (this.fileExtension != null) {
+                            if (Path.extension(filePath) == this.fileExtension) {
+                                files.push(filePath);
+                            }
+                        } else {
                             files.push(filePath);
                         }
                     } else {
@@ -139,6 +151,16 @@ class App extends Cli
         }
 
         return files;
+    }
+
+    private function getChangedFileCount(): Int
+    {
+        var diffProcess = new Process("git", ["diff", "--name-only"]);
+        diffProcess.exitCode();
+        var filesCount = diffProcess.stdout.readAll().toString().split("\n").filter(function(f) { return f.length > 0; }).length;
+        diffProcess.close();
+
+        return filesCount;
     }
 
     private function searchAndReplaceInFile(search: String = '', replace: String = '', filePath: String): Void

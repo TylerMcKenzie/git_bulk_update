@@ -42,7 +42,7 @@ class ChunkIterator {
 	 * @return bool
 	 */
 	public function hasNext () {
-		#src/util/ChunkIterator.hx:17: characters 8-35
+		#src/util/ChunkIterator.hx:17: characters 8-45
 		return $this->index < $this->array->length;
 	}
 
@@ -51,14 +51,16 @@ class ChunkIterator {
 	 * @return \Array_hx
 	 */
 	public function next () {
-		#src/util/ChunkIterator.hx:22: characters 27-32
-		$tmp = $this->index;
-		#src/util/ChunkIterator.hx:22: characters 34-39
-		$tmp1 = $this;
-		#src/util/ChunkIterator.hx:22: characters 34-52
-		$tmp1->index = $tmp1->index + $this->chunkSize;
-		#src/util/ChunkIterator.hx:22: characters 8-53
-		return $this->array->slice($tmp, $tmp1->index);
+		#src/util/ChunkIterator.hx:22: characters 15-34
+		$nextChunk = $this->chunkSize;
+		#src/util/ChunkIterator.hx:22: characters 15-34
+		$start = $this->index;
+		#src/util/ChunkIterator.hx:22: characters 15-19
+		$end = $this;
+		#src/util/ChunkIterator.hx:22: characters 15-34
+		$end->index = $end->index + $nextChunk;
+		#src/util/ChunkIterator.hx:22: characters 15-34
+		return $this->array->slice($start, $end->index);
 	}
 }
 

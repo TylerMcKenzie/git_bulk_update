@@ -43,14 +43,19 @@
    <depend name="include/src/util/Hub.h"/>
    <depend name="include/sys/io/Process.h"/>
   </file>
+  <file name="src/src/util/ChunkIterator.cpp" >
+   <depend name="include/src/util/ChunkIterator.h"/>
+  </file>
   <file name="src/src/App.cpp" >
    <depend name="include/EReg.h"/>
    <depend name="include/Sys.h"/>
+   <depend name="include/haxe/Log.h"/>
    <depend name="include/haxe/io/Bytes.h"/>
    <depend name="include/haxe/io/Input.h"/>
    <depend name="include/haxe/io/Path.h"/>
    <depend name="include/src/App.h"/>
    <depend name="include/src/Cli.h"/>
+   <depend name="include/src/util/ChunkIterator.h"/>
    <depend name="include/src/util/Hub.h"/>
    <depend name="include/sys/FileSystem.h"/>
    <depend name="include/sys/io/File.h"/>
@@ -90,6 +95,10 @@
    <depend name="include/haxe/io/Bytes.h"/>
    <depend name="include/haxe/io/Error.h"/>
   </file>
+  <file name="src/haxe/Log.cpp" >
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
   <file name="src/Sys.cpp" >
    <depend name="include/StringTools.h"/>
    <depend name="include/Sys.h"/>
@@ -119,6 +128,7 @@
   <file name="src/__boot__.cpp" >
    <depend name="include/haxe/io/Error.h"/>
    <depend name="include/src/util/Hub.h"/>
+   <depend name="include/haxe/Log.h"/>
    <depend name="include/StringTools.h"/>
   </file>
   <file name="src/__files__.cpp" if='HXCPP_DEBUGGER'>
