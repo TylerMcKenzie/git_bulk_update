@@ -67,7 +67,7 @@ class App extends Cli
             var changedFileCount = this.getChangedFileCount();
             trace(changedFileCount);
             trace(this.chunk - changedFileCount);
-            if (changedFileCount < this.chunk) {
+            if (changedFileCount != this.chunk) {
                 var nextFilesToUpdate = chunkIterator.getNextChunk(this.chunk - changedFileCount);
                 getFullChunkUpdates(nextFilesToUpdate);
             }
