@@ -163,7 +163,7 @@ class App extends Cli
         var filesCount = diffProcess.stdout.readAll().toString().split("\n").filter(function(f) { return f.length > 0; }).length;
         diffProcess.close();
 
-        return filesCount.length;
+        return filesCount;
     }
 
     private function searchAndReplaceInFile(search: String = '', replace: String = '', filePath: String): Void
