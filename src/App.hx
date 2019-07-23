@@ -60,10 +60,8 @@ class App extends Cli
         // var directoryName = Path.directory(this.directory).split("/").pop();
 
         for (filesChunk in new ChunkIterator(files, this.chunk)) {
-            for (file in filesChunk) {
-                for (i in 0...this.search.length) {
-                    this.searchAndReplaceInFile(search[i], replace[i], file);
-                }
+            if (this.dryRun || !this.createPull) {
+                this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
 
             if (this.dryRun) {
@@ -90,6 +88,9 @@ class App extends Cli
                 var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
                 
                 if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
+                    // Run updates now that we are on a new branch
+                    this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
+
                     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
                     new Process("git", ["push", "-u", "origin", branchnameRange]).exitCode();
                     
@@ -163,6 +164,15 @@ class App extends Cli
             File.saveContent(filePath, updatedContent);
         } catch (errorMessage: String) {
             this.error(errorMessage);
+        }
+    }
+
+    private function searchAndReplaceInFiles(searches: Array<String>, replaces: Array<String>, files: Array<String>)
+    {
+        for (file in files) {
+            for (i in 0...searches.length) {
+                this.searchAndReplaceInFile(searches[i], replaces[i], file);
+            }
         }
     }
 }
