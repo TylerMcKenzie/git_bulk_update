@@ -65,6 +65,7 @@ class App extends Cli
             this.searchAndReplaceInFiles(this.search, this.replace, filesToUpdate);
 
             var changedFileCount = this.getChangedFileCount();
+            trace(filesToUpdate.length);
             trace(changedFileCount);
             trace(this.chunk - changedFileCount);
             if (changedFileCount != this.chunk) {
