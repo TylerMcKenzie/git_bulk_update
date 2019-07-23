@@ -91,7 +91,7 @@ class App extends Cli
                 
                 if (new Process("git", ["checkout", "-b", branchnameRange, "master"]).exitCode() == 0) {
                     new Process("git", ["commit", "-am", 'Adding update for batch $start - $end']).exitCode();
-                    new Process("git", ["push", "-u"]).exitCode();
+                    new Process("git", ["push", "-u", "origin", branchnameRange]).exitCode();
                     
                     var message = (this.pullRequestMessage != null) ? this.pullRequestMessage : '';
 
