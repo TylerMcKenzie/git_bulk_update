@@ -57,7 +57,6 @@ class App extends Cli
         var files = this.getAllFiles(this.directory, new Array<String>());
 
         var range = 0;
-        // var directoryName = Path.directory(this.directory).split("/").pop();
         var chunkIterator = new ChunkIterator<String>(files, this.chunk);
 
         function getFullChunkUpdates(filesToUpdate)
@@ -93,6 +92,7 @@ class App extends Cli
                 
                 if (this.branchname == null) this.error("'-b' branch flag is required when creating a pull request.");
 
+                // var directoryName = Path.directory(this.directory).split("/").pop();
                 // var branchnameRange = this.branchname + directoryName + "_batch_" + start + "_" + end;
                 var branchnameRange = this.branchname + "_batch_" + start + "_" + end;
                 

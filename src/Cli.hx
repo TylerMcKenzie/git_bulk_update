@@ -17,6 +17,7 @@ class Cli {
 
         var exprs: Array<Expr> = [];
         exprs.push(macro var args = Sys.args());
+
         for (field in cls.fields.get()) if (field.isPublic) {
             switch (field.kind) {
                 case FVar(_):
@@ -42,7 +43,7 @@ class Cli {
                                             $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1);
                                         };
                                     case 'Int':
-                                        expr = macro { 
+                                        expr = macro {
                                             $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
                                         };
                                 }
@@ -57,6 +58,18 @@ class Cli {
                                         expr = macro {
                                             $p{["this", field.name]} = [for (i in 0...args.length) if (args[i] == $v{ flag }) args[i+1]];
                                         };
+                                }
+                            case TType(_, _ => params):
+                                switch (params) {
+                                    case [TAbstract(_.get() => type, _)]:
+                                        switch(type.name) {
+                                            case 'Int':
+                                                expr = macro {
+                                                    $p{["this", field.name]} = (args.indexOf($v{ flag }) > -1) ? Std.parseInt(args[args.indexOf($v{ flag }) + 1]) : null;
+                                                };
+                                            case _:
+                                        }
+                                    case _:
                                 }
                             case _:
                         }
