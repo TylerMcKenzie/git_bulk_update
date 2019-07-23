@@ -311,10 +311,12 @@ class App extends Cli {
 						"-am",
 						"Adding update for batch " . ($start??'null') . " - " . ($end??'null'),
 					])))->exitCode();
-					#src/App.hx:94: characters 20-65
+					#src/App.hx:94: characters 20-92
 					(new Process("git", \Array_hx::wrap([
 						"push",
 						"-u",
+						"origin",
+						$branchnameRange,
 					])))->exitCode();
 					#src/App.hx:96: characters 20-99
 					$message = ($this->pullRequestMessage !== null ? $this->pullRequestMessage : "");

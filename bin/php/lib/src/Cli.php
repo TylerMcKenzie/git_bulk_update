@@ -13,13 +13,6 @@ class Cli {
 	 */
 	public function __construct () {
 	}
-
-
-	/**
-	 * @return void
-	 */
-	public function run () {
-	}
 }
 
 

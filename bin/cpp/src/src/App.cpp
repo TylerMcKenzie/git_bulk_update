@@ -45,9 +45,6 @@ static const ::String _hx_array_data_62186df7_8[] = {
 };
 HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_98_run,"src.App","run",0x520aed54,"src.App.run","App.hx",98,0xc43e94dd)
 static const ::String _hx_array_data_62186df7_10[] = {
-	HX_("push",da,11,61,4a),HX_("-u",a8,27,00,00),
-};
-static const ::String _hx_array_data_62186df7_11[] = {
 	HX_("checkout",c6,b4,ff,ac),HX_("-",2d,00,00,00),
 };
 HX_LOCAL_STACK_FRAME(_hx_pos_9aa8d6444802cb78_113_error,"src.App","error",0x9e722611,"src.App.error","App.hx",113,0xc43e94dd)
@@ -218,7 +215,7 @@ HXLINE( 101)							process->close();
             						HX_END_LOCAL_FUNC1((void))
 
 HXLINE(  93)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(3)->init(0,HX_("commit",f7,6f,2e,c7))->init(1,HX_("-am",59,7a,22,00))->init(2,(((HX_("Adding update for batch ",b5,75,7f,e2) + start) + HX_(" - ",73,6f,18,00)) + end)))->exitCode(null());
-HXLINE(  94)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_10,2))->exitCode(null());
+HXLINE(  94)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::__new(4)->init(0,HX_("push",da,11,61,4a))->init(1,HX_("-u",a8,27,00,00))->init(2,HX_("origin",e6,19,01,4b))->init(3,branchnameRange))->exitCode(null());
 HXLINE(  96)						::String message;
 HXDLIN(  96)						if (hx::IsNotNull( this->pullRequestMessage )) {
 HXLINE(  96)							message = this->pullRequestMessage;
@@ -227,7 +224,7 @@ HXLINE(  96)							message = this->pullRequestMessage;
 HXLINE(  96)							message = HX_("",00,00,00,00);
             						}
 HXLINE(  98)						::src::util::Hub_obj::pullRequest(::Array_obj< ::String >::__new(4)->init(0,HX_("-m",a0,27,00,00))->init(1,(((HX_("Update batch ",3d,40,8c,ce) + start) + HX_(" - ",73,6f,18,00)) + end))->init(2,HX_("-m",a0,27,00,00))->init(3,message), ::Dynamic(new _hx_Closure_0()));
-HXLINE( 104)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_11,2))->exitCode(null());
+HXLINE( 104)						 ::sys::io::Process_obj::__alloc( HX_CTX ,HX_("git",12,84,4e,00),::Array_obj< ::String >::fromData( _hx_array_data_62186df7_10,2))->exitCode(null());
             					}
             					else {
 HXLINE( 106)						this->error(((HX_("Could not checkout branch '",f7,8e,c5,dc) + branchnameRange) + HX_("'.",27,22,00,00)));
@@ -237,6 +234,8 @@ HXLINE( 106)						this->error(((HX_("Could not checkout branch '",f7,8e,c5,dc) +
             		}
             	}
 
+
+HX_DEFINE_DYNAMIC_FUNC0(App_obj,run,(void))
 
 void App_obj::error(::String __o_msg){
 ::String msg = __o_msg.Default(HX_HCSTRING("","\x00","\x00","\x00","\x00"));

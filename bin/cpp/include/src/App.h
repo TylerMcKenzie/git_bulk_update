@@ -57,6 +57,7 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 		 ::Dynamic chunk;
 		bool dryRun;
 		void run();
+		::Dynamic run_dyn();
 
 		void error(::String msg);
 		::Dynamic error_dyn();
