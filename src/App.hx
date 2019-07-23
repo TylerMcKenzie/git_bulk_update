@@ -160,8 +160,7 @@ class App extends Cli
     {
         var diffProcess = new Process("git", ["diff", "--name-only"]);
         diffProcess.exitCode();
-        var filesCount = diffProcess.stdout.readAll().toString().split("\n");
-        trace(filesCount);
+        var filesCount = diffProcess.stdout.readAll().toString().split("\n").filter(function(f) {f.length > 0}).length;
         diffProcess.close();
 
         return filesCount.length;
