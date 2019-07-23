@@ -49,8 +49,8 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 
 		::String directory;
 		::String fileExtension;
-		::String search;
-		::String replace;
+		::Array< ::String > search;
+		::Array< ::String > replace;
 		::String branchname;
 		bool createPull;
 		::String pullRequestMessage;
