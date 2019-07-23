@@ -32,8 +32,8 @@ class App extends Cli
     @:flag("--pull-message")
     public var pullRequestMessage: String;
 
-    @:flag("--chunk")
     @:default(50)
+    @:flag("--chunk")
     public var chunk: Null<Int>;
 
     @:flag("--dry")
@@ -47,8 +47,6 @@ class App extends Cli
 
     override public function run(): Void
     {
-        trace(this.chunk);
-        return;
         if (this.directory == null) {
             this.error("Test directory is required");
         }
