@@ -1,5 +1,9 @@
 -cp src/
 
+-D staticStdLibs
+
 -cpp bin/cpp
 
 -main Main
+
+-dce full
