@@ -68,6 +68,9 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 		void searchAndReplaceInFile(::String search,::String replace,::String filePath);
 		::Dynamic searchAndReplaceInFile_dyn();
 
+		void searchAndReplaceInFiles(::Array< ::String > searches,::Array< ::String > replaces,::Array< ::String > files);
+		::Dynamic searchAndReplaceInFiles_dyn();
+
 };
 
 } // end namespace src

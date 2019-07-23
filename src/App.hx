@@ -59,7 +59,7 @@ class App extends Cli
         var range = 0;
         // var directoryName = Path.directory(this.directory).split("/").pop();
 
-        for (filesChunk in new ChunkIterator(files, this.chunk)) {
+        for (filesChunk in new ChunkIterator<String>(files, this.chunk)) {
             if (this.dryRun || !this.createPull) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }

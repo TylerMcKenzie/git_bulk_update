@@ -1,12 +1,12 @@
 package src.util;
 
-class ChunkIterator
+class ChunkIterator<T>
 {
-    var array: Array<Dynamic>;
+    var array: Array<T>;
     var chunkSize: Int;
     var index: Int = 0;
 
-    inline public function new(array: Array<Dynamic>, chunkSize: Int)
+    inline public function new(array: Array<T>, chunkSize: Int)
     {
         this.array     = array;
         this.chunkSize = chunkSize;
