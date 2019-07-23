@@ -58,8 +58,17 @@ class HXCPP_CLASS_ATTRIBUTES Sys_obj : public hx::Object
 		static ::Array< ::String > args();
 		static ::Dynamic args_dyn();
 
+		static ::String systemName();
+		static ::Dynamic systemName_dyn();
+
+		static int command(::String cmd,::Array< ::String > args);
+		static ::Dynamic command_dyn();
+
 		static void exit(int code);
 		static ::Dynamic exit_dyn();
+
+		static ::String programPath();
+		static ::Dynamic programPath_dyn();
 
 };
 

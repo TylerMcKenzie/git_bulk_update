@@ -6,15 +6,19 @@
 #include <hxcpp.h>
 #endif
 
+#ifndef INCLUDED_src_Cli
+#include <src/Cli.h>
+#endif
 HX_DECLARE_CLASS1(src,App)
+HX_DECLARE_CLASS1(src,Cli)
 
 namespace src{
 
 
-class HXCPP_CLASS_ATTRIBUTES App_obj : public hx::Object
+class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 {
 	public:
-		typedef hx::Object super;
+		typedef  ::src::Cli_obj super;
 		typedef App_obj OBJ_;
 		App_obj();
 
@@ -44,10 +48,15 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public hx::Object
 		::String __ToString() const { return HX_HCSTRING("App","\x81","\xb4","\x31","\x00"); }
 
 		::String directory;
-		::String search;
-		::String replace;
+		::String fileExtension;
+		::Array< ::String > search;
+		::Array< ::String > replace;
+		::String branchname;
+		bool createPull;
+		::String pullRequestMessage;
+		 ::Dynamic chunk;
+		bool dryRun;
 		void run();
-		::Dynamic run_dyn();
 
 		void error(::String msg);
 		::Dynamic error_dyn();

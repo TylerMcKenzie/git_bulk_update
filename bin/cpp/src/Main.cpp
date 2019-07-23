@@ -7,6 +7,9 @@
 #ifndef INCLUDED_src_App
 #include <src/App.h>
 #endif
+#ifndef INCLUDED_src_Cli
+#include <src/Cli.h>
+#endif
 
 HX_LOCAL_STACK_FRAME(_hx_pos_e47a9afac0942eb9_8_main,"Main","main",0xed0e206e,"Main.main","Main.hx",8,0x087e5c05)
 

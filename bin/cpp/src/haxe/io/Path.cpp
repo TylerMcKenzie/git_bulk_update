@@ -11,16 +11,18 @@
 #include <haxe/io/Path.h>
 #endif
 
+HX_DEFINE_STACK_FRAME(_hx_pos_6cfed01bf295c856_76_new,"haxe.io.Path","new",0x1b96d677,"haxe.io.Path.new","/usr/share/haxe/std/haxe/io/Path.hx",76,0x457392de)
+HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_161_extension,"haxe.io.Path","extension",0x91c9c4d6,"haxe.io.Path.extension","/usr/share/haxe/std/haxe/io/Path.hx",161,0x457392de)
 HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_190_join,"haxe.io.Path","join",0x05c781f3,"haxe.io.Path.join","/usr/share/haxe/std/haxe/io/Path.hx",190,0x457392de)
 HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_189_join,"haxe.io.Path","join",0x05c781f3,"haxe.io.Path.join","/usr/share/haxe/std/haxe/io/Path.hx",189,0x457392de)
 HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_210_normalize,"haxe.io.Path","normalize",0x585a68e4,"haxe.io.Path.normalize","/usr/share/haxe/std/haxe/io/Path.hx",210,0x457392de)
-static const ::String _hx_array_data_4ec6cf05_6[] = {
+static const ::String _hx_array_data_4ec6cf05_9[] = {
 	HX_("/",2f,00,00,00),
 };
-static const ::String _hx_array_data_4ec6cf05_7[] = {
+static const ::String _hx_array_data_4ec6cf05_10[] = {
 	HX_(":",3a,00,00,00),
 };
-static const ::String _hx_array_data_4ec6cf05_8[] = {
+static const ::String _hx_array_data_4ec6cf05_11[] = {
 	HX_("/",2f,00,00,00),
 };
 HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_262_addTrailingSlash,"haxe.io.Path","addTrailingSlash",0x8b4f8e69,"haxe.io.Path.addTrailingSlash","/usr/share/haxe/std/haxe/io/Path.hx",262,0x457392de)
@@ -28,7 +30,42 @@ HX_LOCAL_STACK_FRAME(_hx_pos_6cfed01bf295c856_287_removeTrailingSlashes,"haxe.io
 namespace haxe{
 namespace io{
 
-void Path_obj::__construct() { }
+void Path_obj::__construct(::String path){
+            	HX_STACKFRAME(&_hx_pos_6cfed01bf295c856_76_new)
+HXLINE(  77)		::String _hx_switch_0 = path;
+            		if (  (_hx_switch_0==HX_(".",2e,00,00,00)) ||  (_hx_switch_0==HX_("..",40,28,00,00)) ){
+HXLINE(  79)			this->dir = path;
+HXLINE(  80)			this->file = HX_("",00,00,00,00);
+HXLINE(  81)			return;
+HXLINE(  78)			goto _hx_goto_0;
+            		}
+            		_hx_goto_0:;
+HXLINE(  83)		int c1 = path.lastIndexOf(HX_("/",2f,00,00,00),null());
+HXLINE(  84)		int c2 = path.lastIndexOf(HX_("\\",5c,00,00,00),null());
+HXLINE(  85)		if ((c1 < c2)) {
+HXLINE(  86)			this->dir = path.substr((int)0,c2);
+HXLINE(  87)			path = path.substr((c2 + (int)1),null());
+HXLINE(  88)			this->backslash = true;
+            		}
+            		else {
+HXLINE(  89)			if ((c2 < c1)) {
+HXLINE(  90)				this->dir = path.substr((int)0,c1);
+HXLINE(  91)				path = path.substr((c1 + (int)1),null());
+            			}
+            			else {
+HXLINE(  93)				this->dir = null();
+            			}
+            		}
+HXLINE(  94)		int cp = path.lastIndexOf(HX_(".",2e,00,00,00),null());
+HXLINE(  95)		if ((cp != (int)-1)) {
+HXLINE(  96)			this->ext = path.substr((cp + (int)1),null());
+HXLINE(  97)			this->file = path.substr((int)0,cp);
+            		}
+            		else {
+HXLINE(  99)			this->ext = null();
+HXLINE( 100)			this->file = path;
+            		}
+            	}
 
 Dynamic Path_obj::__CreateEmpty() { return new Path_obj; }
 
@@ -37,13 +74,25 @@ void *Path_obj::_hx_vtable = 0;
 Dynamic Path_obj::__Create(hx::DynamicArray inArgs)
 {
 	hx::ObjectPtr< Path_obj > _hx_result = new Path_obj();
-	_hx_result->__construct();
+	_hx_result->__construct(inArgs[0]);
 	return _hx_result;
 }
 
 bool Path_obj::_hx_isInstanceOf(int inClassId) {
 	return inClassId==(int)0x00000001 || inClassId==(int)0x044b6ab5;
 }
+
+::String Path_obj::extension(::String path){
+            	HX_GC_STACKFRAME(&_hx_pos_6cfed01bf295c856_161_extension)
+HXLINE( 162)		 ::haxe::io::Path s =  ::haxe::io::Path_obj::__alloc( HX_CTX ,path);
+HXLINE( 163)		if (hx::IsNull( s->ext )) {
+HXLINE( 164)			return HX_("",00,00,00,00);
+            		}
+HXLINE( 165)		return s->ext;
+            	}
+
+
+STATIC_HX_DEFINE_DYNAMIC_FUNC1(Path_obj,extension,return )
 
 ::String Path_obj::join(::Array< ::String > paths){
             		HX_BEGIN_LOCAL_FUNC_S0(hx::LocalFunc,_hx_Closure_0) HXARGC(1)
@@ -148,7 +197,7 @@ HXLINE( 241)											if (hx::IsNotNull( acc->charBuf )) {
 HXLINE( 241)												acc->flush();
             											}
 HXDLIN( 241)											if (hx::IsNull( acc->b )) {
-HXLINE( 241)												acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_6,1);
+HXLINE( 241)												acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_9,1);
             											}
             											else {
 HXLINE( 241)												acc->b->push(HX_("/",2f,00,00,00));
@@ -172,7 +221,7 @@ HXLINE( 234)								if (hx::IsNotNull( acc->charBuf )) {
 HXLINE( 234)									acc->flush();
             								}
 HXDLIN( 234)								if (hx::IsNull( acc->b )) {
-HXLINE( 234)									acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_7,1);
+HXLINE( 234)									acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_10,1);
             								}
             								else {
 HXLINE( 234)									acc->b->push(HX_(":",3a,00,00,00));
@@ -191,7 +240,7 @@ HXLINE( 241)										if (hx::IsNotNull( acc->charBuf )) {
 HXLINE( 241)											acc->flush();
             										}
 HXDLIN( 241)										if (hx::IsNull( acc->b )) {
-HXLINE( 241)											acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_8,1);
+HXLINE( 241)											acc->b = ::Array_obj< ::String >::fromData( _hx_array_data_4ec6cf05_11,1);
             										}
             										else {
 HXLINE( 241)											acc->b->push(HX_("/",2f,00,00,00));
@@ -251,21 +300,21 @@ STATIC_HX_DEFINE_DYNAMIC_FUNC1(Path_obj,addTrailingSlash,return )
 HXLINE( 288)		while(true){
 HXLINE( 289)			 ::Dynamic _g = path.charCodeAt((path.length - (int)1));
 HXDLIN( 289)			if (hx::IsNull( _g )) {
-HXLINE( 291)				goto _hx_goto_10;
+HXLINE( 291)				goto _hx_goto_13;
             			}
             			else {
 HXLINE( 289)				 ::Dynamic _hx_switch_0 = _g;
             				if (  (_hx_switch_0==(int)47) ||  (_hx_switch_0==(int)92) ){
 HXLINE( 290)					path = path.substr((int)0,(int)-1);
-HXDLIN( 290)					goto _hx_goto_11;
+HXDLIN( 290)					goto _hx_goto_14;
             				}
             				/* default */{
-HXLINE( 291)					goto _hx_goto_10;
+HXLINE( 291)					goto _hx_goto_13;
             				}
-            				_hx_goto_11:;
+            				_hx_goto_14:;
             			}
             		}
-            		_hx_goto_10:;
+            		_hx_goto_13:;
 HXLINE( 294)		return path;
             	}
 
@@ -273,8 +322,55 @@ HXLINE( 294)		return path;
 STATIC_HX_DEFINE_DYNAMIC_FUNC1(Path_obj,removeTrailingSlashes,return )
 
 
+hx::ObjectPtr< Path_obj > Path_obj::__new(::String path) {
+	hx::ObjectPtr< Path_obj > __this = new Path_obj();
+	__this->__construct(path);
+	return __this;
+}
+
+hx::ObjectPtr< Path_obj > Path_obj::__alloc(hx::Ctx *_hx_ctx,::String path) {
+	Path_obj *__this = (Path_obj*)(hx::Ctx::alloc(_hx_ctx, sizeof(Path_obj), true, "haxe.io.Path"));
+	*(void **)__this = Path_obj::_hx_vtable;
+	__this->__construct(path);
+	return __this;
+}
+
 Path_obj::Path_obj()
 {
+}
+
+void Path_obj::__Mark(HX_MARK_PARAMS)
+{
+	HX_MARK_BEGIN_CLASS(Path);
+	HX_MARK_MEMBER_NAME(dir,"dir");
+	HX_MARK_MEMBER_NAME(file,"file");
+	HX_MARK_MEMBER_NAME(ext,"ext");
+	HX_MARK_MEMBER_NAME(backslash,"backslash");
+	HX_MARK_END_CLASS();
+}
+
+void Path_obj::__Visit(HX_VISIT_PARAMS)
+{
+	HX_VISIT_MEMBER_NAME(dir,"dir");
+	HX_VISIT_MEMBER_NAME(file,"file");
+	HX_VISIT_MEMBER_NAME(ext,"ext");
+	HX_VISIT_MEMBER_NAME(backslash,"backslash");
+}
+
+hx::Val Path_obj::__Field(const ::String &inName,hx::PropertyAccess inCallProp)
+{
+	switch(inName.length) {
+	case 3:
+		if (HX_FIELD_EQ(inName,"dir") ) { return hx::Val( dir ); }
+		if (HX_FIELD_EQ(inName,"ext") ) { return hx::Val( ext ); }
+		break;
+	case 4:
+		if (HX_FIELD_EQ(inName,"file") ) { return hx::Val( file ); }
+		break;
+	case 9:
+		if (HX_FIELD_EQ(inName,"backslash") ) { return hx::Val( backslash ); }
+	}
+	return super::__Field(inName,inCallProp);
 }
 
 bool Path_obj::__GetStatic(const ::String &inName, Dynamic &outValue, hx::PropertyAccess inCallProp)
@@ -284,6 +380,7 @@ bool Path_obj::__GetStatic(const ::String &inName, Dynamic &outValue, hx::Proper
 		if (HX_FIELD_EQ(inName,"join") ) { outValue = join_dyn(); return true; }
 		break;
 	case 9:
+		if (HX_FIELD_EQ(inName,"extension") ) { outValue = extension_dyn(); return true; }
 		if (HX_FIELD_EQ(inName,"normalize") ) { outValue = normalize_dyn(); return true; }
 		break;
 	case 16:
@@ -295,10 +392,48 @@ bool Path_obj::__GetStatic(const ::String &inName, Dynamic &outValue, hx::Proper
 	return false;
 }
 
+hx::Val Path_obj::__SetField(const ::String &inName,const hx::Val &inValue,hx::PropertyAccess inCallProp)
+{
+	switch(inName.length) {
+	case 3:
+		if (HX_FIELD_EQ(inName,"dir") ) { dir=inValue.Cast< ::String >(); return inValue; }
+		if (HX_FIELD_EQ(inName,"ext") ) { ext=inValue.Cast< ::String >(); return inValue; }
+		break;
+	case 4:
+		if (HX_FIELD_EQ(inName,"file") ) { file=inValue.Cast< ::String >(); return inValue; }
+		break;
+	case 9:
+		if (HX_FIELD_EQ(inName,"backslash") ) { backslash=inValue.Cast< bool >(); return inValue; }
+	}
+	return super::__SetField(inName,inValue,inCallProp);
+}
+
+void Path_obj::__GetFields(Array< ::String> &outFields)
+{
+	outFields->push(HX_HCSTRING("dir","\x4d","\x3d","\x4c","\x00"));
+	outFields->push(HX_HCSTRING("file","\x7c","\xce","\xbb","\x43"));
+	outFields->push(HX_HCSTRING("ext","\xa1","\x0c","\x4d","\x00"));
+	outFields->push(HX_HCSTRING("backslash","\xb6","\xb8","\x45","\xc8"));
+	super::__GetFields(outFields);
+};
+
 #if HXCPP_SCRIPTABLE
-static hx::StorageInfo *Path_obj_sMemberStorageInfo = 0;
+static hx::StorageInfo Path_obj_sMemberStorageInfo[] = {
+	{hx::fsString,(int)offsetof(Path_obj,dir),HX_HCSTRING("dir","\x4d","\x3d","\x4c","\x00")},
+	{hx::fsString,(int)offsetof(Path_obj,file),HX_HCSTRING("file","\x7c","\xce","\xbb","\x43")},
+	{hx::fsString,(int)offsetof(Path_obj,ext),HX_HCSTRING("ext","\xa1","\x0c","\x4d","\x00")},
+	{hx::fsBool,(int)offsetof(Path_obj,backslash),HX_HCSTRING("backslash","\xb6","\xb8","\x45","\xc8")},
+	{ hx::fsUnknown, 0, null()}
+};
 static hx::StaticInfo *Path_obj_sStaticStorageInfo = 0;
 #endif
+
+static ::String Path_obj_sMemberFields[] = {
+	HX_HCSTRING("dir","\x4d","\x3d","\x4c","\x00"),
+	HX_HCSTRING("file","\x7c","\xce","\xbb","\x43"),
+	HX_HCSTRING("ext","\xa1","\x0c","\x4d","\x00"),
+	HX_HCSTRING("backslash","\xb6","\xb8","\x45","\xc8"),
+	::String(null()) };
 
 static void Path_obj_sMarkStatics(HX_MARK_PARAMS) {
 	HX_MARK_MEMBER_NAME(Path_obj::__mClass,"__mClass");
@@ -314,6 +449,7 @@ static void Path_obj_sVisitStatics(HX_VISIT_PARAMS) {
 hx::Class Path_obj::__mClass;
 
 static ::String Path_obj_sStaticFields[] = {
+	HX_HCSTRING("extension","\x7f","\x93","\x10","\xe5"),
 	HX_HCSTRING("join","\xea","\x33","\x65","\x46"),
 	HX_HCSTRING("normalize","\x8d","\x37","\xa1","\xab"),
 	HX_HCSTRING("addTrailingSlash","\xe0","\xd6","\xeb","\x26"),
@@ -334,7 +470,7 @@ void Path_obj::__register()
 	__mClass->mSetStaticField = &hx::Class_obj::SetNoStaticField;
 	__mClass->mMarkFunc = Path_obj_sMarkStatics;
 	__mClass->mStatics = hx::Class_obj::dupFunctions(Path_obj_sStaticFields);
-	__mClass->mMembers = hx::Class_obj::dupFunctions(0 /* sMemberFields */);
+	__mClass->mMembers = hx::Class_obj::dupFunctions(Path_obj_sMemberFields);
 	__mClass->mCanCast = hx::TCanCast< Path_obj >;
 #ifdef HXCPP_VISIT_ALLOCS
 	__mClass->mVisitFunc = Path_obj_sVisitStatics;

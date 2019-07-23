@@ -4,33 +4,53 @@
 namespace hx {
 const char *__hxcpp_all_files[] = {
 #ifdef HXCPP_DEBUGGER
+"/usr/share/haxe/std/StringTools.hx",
 "/usr/share/haxe/std/cpp/_std/EReg.hx",
 "/usr/share/haxe/std/cpp/_std/Std.hx",
 "/usr/share/haxe/std/cpp/_std/StringBuf.hx",
 "/usr/share/haxe/std/cpp/_std/Sys.hx",
 "/usr/share/haxe/std/cpp/_std/sys/FileSystem.hx",
 "/usr/share/haxe/std/cpp/_std/sys/io/File.hx",
+"/usr/share/haxe/std/cpp/_std/sys/io/FileOutput.hx",
+"/usr/share/haxe/std/cpp/_std/sys/io/Process.hx",
+"/usr/share/haxe/std/haxe/io/Bytes.hx",
+"/usr/share/haxe/std/haxe/io/BytesBuffer.hx",
 "/usr/share/haxe/std/haxe/io/Eof.hx",
+"/usr/share/haxe/std/haxe/io/Input.hx",
+"/usr/share/haxe/std/haxe/io/Output.hx",
 "/usr/share/haxe/std/haxe/io/Path.hx",
 "?",
 "App.hx",
+"Cli.hx",
 "Main.hx",
+"util/ChunkIterator.hx",
+"util/Hub.hx",
 #endif
  0 };
 
 const char *__hxcpp_all_files_fullpath[] = {
 #ifdef HXCPP_DEBUGGER
+"/usr/share/haxe/std/StringTools.hx",
 "/usr/share/haxe/std/cpp/_std/EReg.hx",
 "/usr/share/haxe/std/cpp/_std/Std.hx",
 "/usr/share/haxe/std/cpp/_std/StringBuf.hx",
 "/usr/share/haxe/std/cpp/_std/Sys.hx",
 "/usr/share/haxe/std/cpp/_std/sys/FileSystem.hx",
 "/usr/share/haxe/std/cpp/_std/sys/io/File.hx",
+"/usr/share/haxe/std/cpp/_std/sys/io/FileOutput.hx",
+"/usr/share/haxe/std/cpp/_std/sys/io/Process.hx",
+"/usr/share/haxe/std/haxe/io/Bytes.hx",
+"/usr/share/haxe/std/haxe/io/BytesBuffer.hx",
 "/usr/share/haxe/std/haxe/io/Eof.hx",
+"/usr/share/haxe/std/haxe/io/Input.hx",
+"/usr/share/haxe/std/haxe/io/Output.hx",
 "/usr/share/haxe/std/haxe/io/Path.hx",
 "?",
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/App.hx",
+"/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/Cli.hx",
 "/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/Main.hx",
+"/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/util/ChunkIterator.hx",
+"/home/vagrant/code/release/tyler-stuff/haxe/haxe_cmd/phpunit_branch_creator/src/util/Hub.hx",
 #endif
  0 };
 
@@ -40,12 +60,24 @@ const char *__hxcpp_all_classes[] = {
 "Main",
 "Std",
 "StringBuf",
+"StringTools",
 "Sys",
+"haxe.io.Bytes",
+"haxe.io.BytesBuffer",
 "haxe.io.Eof",
+"haxe.io.Input",
+"haxe.io.Output",
 "haxe.io.Path",
+"src.Cli",
 "src.App",
+"src.util.ChunkIterator",
+"src.util.Hub",
 "sys.FileSystem",
 "sys.io.File",
+"sys.io.FileOutput",
+"sys.io._Process.Stdin",
+"sys.io._Process.Stdout",
+"sys.io.Process",
 #endif
  0 };
 } // namespace hx
