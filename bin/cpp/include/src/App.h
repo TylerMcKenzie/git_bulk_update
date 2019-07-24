@@ -56,6 +56,7 @@ class HXCPP_CLASS_ATTRIBUTES App_obj : public  ::src::Cli_obj
 		::String pullRequestMessage;
 		 ::Dynamic chunk;
 		bool dryRun;
+		bool diff;
 		void run();
 		::Dynamic run_dyn();
 
