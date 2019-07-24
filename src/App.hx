@@ -39,6 +39,9 @@ class App extends Cli
     @:flag("--dry")
     public var dryRun: Bool;
 
+    @:flag("--diff")
+    public var diff: Bool;
+
     public function new() 
     {
         super();
@@ -74,11 +77,11 @@ class App extends Cli
         }
 
         for (filesChunk in chunkIterator) {
-            if (this.dryRun && !this.createPull) {
+            if (this.dryRun && !this.createPull && !this.diff) {
                 this.searchAndReplaceInFiles(this.search, this.replace, filesChunk);
             }
 
-            if (this.dryRun) {
+            if (this.dryRun && this.diff) {
                 getFullChunkUpdates(filesChunk);
 
                 Sys.command("git", ["diff"]);
