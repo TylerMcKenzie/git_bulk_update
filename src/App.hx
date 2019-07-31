@@ -176,9 +176,8 @@ class App extends Cli
 
         if (
             search.length == 0
-            || replace.length == 0
         ) {
-            this.error("Search and Replace are required");
+            this.error("Search cannot be empty");
         }
 
         var fileContent = File.getContent(filePath);
